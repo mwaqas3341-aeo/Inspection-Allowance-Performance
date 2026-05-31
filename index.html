@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEO Performance Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:       #0a0a0a;
+      --black-soft:  #111111;
+      --black-card:  #181818;
+      --black-panel: #1f1f1f;
+      --black-line:  #2a2a2a;
+      --orange:      #f97316;
+      --orange-dark: #c2410c;
+      --orange-glow: rgba(249,115,22,0.18);
+      --orange-muted:#7c2d12;
+      --green:       #22c55e;
+      --green-dark:  #15803d;
+      --green-muted: #052e16;
+      --green-glow:  rgba(34,197,94,0.15);
+      --red:         #ef4444;
+      --red-muted:   #450a0a;
+      --text-primary:#f1f5f9;
+      --text-sec:    #94a3b8;
+      --text-muted:  #475569;
+      --border:      #2a2a2a;
+      --border-hover:#3f3f3f;
+      --blue:        #3b82f6;
+      --blue-muted:  #1e3a5f;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      background-color: var(--black);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      padding-top: 10px;
+      min-height: 100vh;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+    /* ── Typography ── */
+    h4, h5, h6 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; color: var(--text-primary); }
+
+    /* ── HUD Cards ── */
+    .hud-card {
+      background: var(--black-card);
+      padding: 18px 20px;
+      border-radius: 6px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--orange);
+      position: relative;
+      overflow: hidden;
+    }
+    .hud-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top, var(--orange-glow), transparent 70%);
+      pointer-events: none;
+    }
+    .hud-card.green-top { border-top-color: var(--green); }
+    .hud-card.green-top::before { background: radial-gradient(ellipse at top, var(--green-glow), transparent 70%); }
+    .hud-card h3 { margin: 4px 0; font-weight: 800; font-size: 2.4rem; font-family: 'Barlow Condensed', sans-serif; color: var(--orange); }
+    .hud-card.green-top h3 { color: var(--green); }
+    .hud-card p  { margin: 0; color: var(--text-muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ── Header Banner ── */
+    .header-banner {
+      background: var(--black-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--orange);
+      color: var(--text-primary);
+      padding: 22px 24px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-banner::after {
+      content: '';
+      position: absolute;
+      right: -40px; top: -40px;
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, var(--orange-glow), transparent 70%);
+      pointer-events: none;
+    }
+    .header-banner h4, .header-banner h5 { color: var(--text-primary); margin: 0; letter-spacing: 0.02em; }
+    .header-banner p { margin: 4px 0 0 0; color: var(--text-sec); font-size: 0.9rem; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--black-card) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 6px !important;
+      box-shadow: none !important;
+      color: var(--text-primary) !important;
+    }
+
+    /* ── Inputs ── */
+    input[type="text"], input[type="email"], input[type="number"], input[type="password"] {
+      background: var(--black-panel) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 4px !important;
+      color: var(--text-primary) !important;
+      padding: 8px 12px !important;
+      font-size: 0.95rem !important;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="password"]:focus {
+      outline: none !important;
+      border-color: var(--orange) !important;
+      box-shadow: 0 0 0 3px var(--orange-glow) !important;
+    }
+    input::placeholder { color: var(--text-muted) !important; }
+
+    select.browser-default {
+      background: var(--black-panel) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 4px !important;
+      color: var(--text-primary) !important;
+      padding: 7px 10px !important;
+      font-size: 0.9rem !important;
+      width: 100%;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    select.browser-default:focus { border-color: var(--orange) !important; outline: none !important; }
+    select.browser-default option { background: var(--black-panel); color: var(--text-primary); }
+    select.browser-default option:disabled { color: var(--text-muted); }
+
+    label { color: var(--text-sec) !important; font-size: 0.8rem !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 0.05em !important; display: block; margin-bottom: 4px; }
+
+    /* ── Buttons ── */
+    .btn, .btn-large {
+      font-family: 'Barlow Condensed', sans-serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.06em !important;
+      text-transform: uppercase !important;
+      border-radius: 4px !important;
+    }
+    .btn-orange {
+      background: var(--orange) !important;
+      color: #fff !important;
+      border: none;
+    }
+    .btn-orange:hover { background: var(--orange-dark) !important; }
+    .btn-green {
+      background: var(--green-dark) !important;
+      color: #fff !important;
+      border: 1px solid var(--green) !important;
+    }
+    .btn-green:hover { background: var(--green) !important; color: #000 !important; }
+    .btn-ghost {
+      background: transparent !important;
+      color: var(--text-sec) !important;
+      border: 1px solid var(--border) !important;
+    }
+    .btn-ghost:hover { border-color: var(--orange) !important; color: var(--orange) !important; }
+    .btn-dark {
+      background: var(--black-panel) !important;
+      color: var(--text-primary) !important;
+      border: 1px solid var(--border) !important;
+    }
+    .btn-dark:hover { border-color: var(--orange) !important; }
+
+    .card-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+
+    /* ── Status / Role Pills ── */
+    .status-pill { padding: 3px 10px; border-radius: 3px; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; font-family: 'Barlow Condensed', sans-serif; }
+    .status-active   { background: var(--green-muted); color: var(--green); border: 1px solid var(--green-dark); }
+    .status-inactive { background: var(--red-muted); color: var(--red); border: 1px solid #7f1d1d; }
+    .role-pill  { padding: 3px 8px; border-radius: 3px; font-weight: 700; font-size: 0.72rem; background: var(--black-panel); color: var(--text-sec); border: 1px solid var(--border); font-family: 'Barlow Condensed', sans-serif; }
+    .role-admin { background: var(--orange-muted); color: var(--orange); border-color: var(--orange-dark); }
+
+    /* ── Table ── */
+    .custom-table-container {
+      max-height: 480px; overflow-y: auto;
+      background: var(--black-card);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    table.compact-view { width: 100%; border-collapse: collapse; }
+    table.compact-view th {
+      background: var(--black-panel);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.06em;
+    }
+    table.compact-view td {
+      padding: 9px 10px;
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+    table.compact-view tr:hover td { background: var(--black-panel); }
+
+    /* ── Month Card ── */
+    .month-card {
+      background: var(--black-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 18px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .month-card:hover { border-color: var(--orange); }
+    .month-card h6 {
+      font-weight: 800;
+      color: var(--orange);
+      margin-top: 0;
+      margin-bottom: 16px;
+      border-left: 4px solid var(--orange);
+      padding-left: 12px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ── Fetch Details Card ── */
+    .fetch-details-card {
+      background: var(--black-panel);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      border-radius: 6px;
+      padding: 14px;
+      margin-top: 14px;
+    }
+    .detail-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .detail-badge {
+      background: var(--black-card);
+      padding: 7px 13px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      font-size: 0.88rem;
+      color: var(--text-sec);
+    }
+    .detail-badge strong { color: var(--text-primary); }
+
+    .month-select-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
+      display: block;
+    }
+    .month-select-wrap { margin-bottom: 10px; }
+
+    .closed-note {
+      background: var(--green-muted);
+      border-left: 4px solid var(--green);
+      padding: 10px 15px;
+      border-radius: 4px;
+      color: var(--green);
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    /* ── KPI Spreadsheet Table ── */
+    .kpi-table-wrap {
+      margin-top: 14px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .kpi-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      background: var(--black-card);
+    }
+    .kpi-table thead tr { background: var(--orange); }
+    .kpi-table thead th {
+      padding: 10px 8px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-right: 1px solid rgba(0,0,0,0.2);
+      color: #000;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+    .kpi-table thead th:last-child { border-right: none; }
+    .kpi-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
+    .kpi-table tbody tr:hover { background: var(--black-panel); }
+    .kpi-table tbody tr.row-locked { background: #141414; }
+    .kpi-table tbody td {
+      padding: 8px 10px;
+      border-right: 1px solid var(--border);
+      vertical-align: middle;
+      color: var(--text-primary);
+    }
+    .kpi-table tbody td:last-child { border-right: none; }
+
+    .col-b { width: 42px; text-align: center; color: var(--text-muted); font-size: 0.78rem; font-weight: 700; background: var(--black-panel) !important; }
+    .col-c { min-width: 140px; color: var(--text-primary); font-weight: 500; background: var(--black-panel) !important; }
+    .col-d { width: 130px; text-align: center; }
+    .col-e { width: 90px; text-align: center; color: var(--text-sec); background: var(--black-panel) !important; font-size: 0.83rem; }
+    .col-f { width: 130px; text-align: center; }
+
+    .locked-cell { cursor: not-allowed; }
+
+    .editable-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 5px 8px;
+      font-size: 0.86rem;
+      text-align: center;
+      background: var(--black-panel);
+      color: var(--text-primary);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      box-sizing: border-box;
+    }
+    .editable-input:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px var(--orange-glow);
+    }
+    .editable-input:disabled {
+      background: #0d0d0d;
+      color: var(--text-muted);
+      border-color: transparent;
+      cursor: not-allowed;
+    }
+    .editable-input::placeholder { color: var(--text-muted); }
+
+    .badge-achieved {
+      display: inline-block; padding: 3px 10px; border-radius: 3px;
+      font-size: 0.73rem; font-weight: 800;
+      background: var(--green-muted); color: var(--green);
+      border: 1px solid var(--green-dark);
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .badge-not-achieved {
+      display: inline-block; padding: 3px 10px; border-radius: 3px;
+      font-size: 0.73rem; font-weight: 800;
+      background: var(--red-muted); color: var(--red);
+      border: 1px solid #7f1d1d;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .badge-pending {
+      display: inline-block; padding: 3px 10px; border-radius: 3px;
+      font-size: 0.73rem; font-weight: 700;
+      background: var(--black-panel); color: var(--text-muted);
+      border: 1px solid var(--border);
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    .table-legend {
+      display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px;
+      font-size: 0.78rem; color: var(--text-muted); align-items: center;
+    }
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+    /* ── Error ── */
+    #error-screen {
+      background: var(--red-muted) !important;
+      color: var(--red) !important;
+      border: 1px solid #7f1d1d !important;
+      border-left: 4px solid var(--red) !important;
+      border-radius: 6px;
+      padding: 16px !important;
+      font-weight: 700;
+    }
+
+    /* ── Loading ── */
+    .spinner-layer.spinner-blue-only { border-color: var(--orange) !important; }
+
+    /* ── Section Divider ── */
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+    /* ── Form Step Label ── */
+    .step-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--orange);
+      background: var(--orange-muted);
+      border: 1px solid var(--orange-dark);
+      border-radius: 3px;
+      padding: 2px 8px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    /* ── Compact Input ── */
+    .compact-input { margin-bottom: 12px !important; }
+    .compact-input input { height: 2.5rem !important; }
+
+    /* ── Back Button ── */
+    #admin-rollback-container .btn {
+      background: var(--black-panel) !important;
+      color: var(--text-sec) !important;
+      border: 1px solid var(--border) !important;
+    }
+    #admin-rollback-container .btn:hover {
+      border-color: var(--orange) !important;
+      color: var(--orange) !important;
+    }
+
+    /* ── Verify-Only Notice ── */
+    .verify-only-notice {
+      background: var(--blue-muted);
+      border-left: 4px solid var(--blue);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-top: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .verify-only-notice i { color: var(--blue); font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
+    .verify-only-notice .title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #93c5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+    .verify-only-notice .body { font-size: 0.88rem; color: var(--text-sec); line-height: 1.5; }
+    .verify-only-notice .body b { color: var(--text-primary); }
+
+    /* ── Own Profile Quick Hint ── */
+    .own-profile-hint {
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: var(--black-panel);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .own-profile-hint b { color: var(--orange); }
+
+    /* ── Login Card ── */
+    .login-card {
+      background: var(--black-card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--orange);
+      border-radius: 8px;
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top, var(--orange-glow), transparent 65%);
+      pointer-events: none;
+    }
+    .login-btn {
+      width: 100%;
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 13px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .login-btn:hover { background: var(--orange-dark); }
+    .login-btn:active { transform: scale(0.98); }
+    .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .login-error-box {
+      display: none;
+      margin-bottom: 18px;
+      font-size: 0.88rem;
+      color: var(--red);
+      padding: 12px 14px;
+      background: var(--red-muted);
+      border-left: 3px solid var(--red);
+      border-radius: 4px;
+      font-weight: 600;
+      animation: slideIn 0.2s ease;
+    }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .login-input-wrap { position: relative; margin-bottom: 20px; }
+    .login-input-wrap input {
+      padding-left: 42px !important;
+      height: 48px !important;
+      font-size: 1.05rem !important;
+      letter-spacing: 0.12em !important;
+      font-weight: 600 !important;
+    }
+    .login-input-wrap .input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .login-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 22px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════
+       LOADING SCREEN
+  ══════════════════════════════════════ -->
+  <div id="loading" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:80vh;">
+    <div class="preloader-wrapper active">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left"><div class="circle"></div></div>
+        <div class="gap-patch"><div class="circle"></div></div>
+        <div class="circle-clipper right"><div class="circle"></div></div>
+      </div>
+    </div>
+    <p style="margin-top:20px; color:var(--text-muted); font-weight:600; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.1em; text-transform:uppercase; font-size:0.9rem;">Initialising System…</p>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       LOGIN SCREEN
+  ══════════════════════════════════════ -->
+  <div id="login-screen" style="display:none; min-height:100vh; align-items:center; justify-content:center; padding:20px;">
+    <div style="width:100%; max-width:420px; margin:0 auto;">
+
+      <!-- Brand -->
+      <div style="text-align:center; margin-bottom:28px;">
+        <div style="display:inline-flex; align-items:center; justify-content:center; width:68px; height:68px; background:var(--orange-muted); border:2px solid var(--orange); border-radius:12px; margin-bottom:14px;">
+          <i class="material-icons" style="font-size:2.2rem; color:var(--orange);">shield</i>
+        </div>
+        <h4 style="margin:0; font-size:1.9rem; letter-spacing:0.04em; color:var(--text-primary);">AEO PERFORMANCE HUB</h4>
+        <p style="margin:6px 0 0 0; color:var(--text-muted); font-size:0.88rem;">Secure Access Portal — Enter Your Personnel Number</p>
+      </div>
+
+      <!-- Card -->
+      <div class="login-card">
+        <!-- Error Box -->
+        <div id="loginError" class="login-error-box"></div>
+
+        <!-- Input -->
+        <label for="loginInputPNo">Personnel Number</label>
+        <div class="login-input-wrap">
+          <i class="material-icons input-icon">badge</i>
+          <input
+            type="text"
+            id="loginInputPNo"
+            placeholder="8-digit number"
+            maxlength="8"
+            autocomplete="off"
+            inputmode="numeric"
+            pattern="\d{8}"
+          >
+        </div>
+
+        <!-- Sign In Button -->
+        <button class="login-btn" id="loginBtn" onclick="attemptManualLogin()">
+          <i class="material-icons" style="font-size:1.15rem;">login</i>
+          Sign In
+        </button>
+
+        <hr class="login-divider">
+        <p style="text-align:center; margin:0; color:var(--text-muted); font-size:0.78rem; line-height:1.6;">
+          Access is restricted to registered personnel only.<br>
+          Contact your administrator if you are not registered.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MAIN APP
+  ══════════════════════════════════════ -->
+  <div id="app" class="container-fluid" style="display:none; padding:0 20px;">
+    <div id="error-screen" style="display:none;"></div>
+
+    <!-- ══════════════════════════════════
+         ADMIN PANEL
+    ══════════════════════════════════ -->
+    <div id="admin-panel" style="display:none;">
+      <div class="header-banner" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h5 style="margin:0; font-size:1.6rem; letter-spacing:0.03em;">AEO REGISTRY &amp; INFRASTRUCTURE DIRECTORY</h5>
+          <p style="margin:4px 0 0 0; opacity:0.7;">Operational Core Management Console</p>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="btn btn-green waves-effect waves-light" onclick="toggleViewContext(true)">
+            <i class="material-icons left">dashboard</i>Performance Dashboard
+          </button>
+          <button class="btn btn-ghost waves-effect" onclick="logoutUser()" title="Sign Out">
+            <i class="material-icons left">logout</i>Sign Out
+          </button>
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom:16px;">
+        <div class="col s12 m4"><div class="hud-card"><h3><span id="stat-total">-</span></h3><p>Monitored Profiles</p></div></div>
+        <div class="col s12 m4"><div class="hud-card green-top"><h3><span id="stat-active">-</span></h3><p>Active Channels</p></div></div>
+        <div class="col s12 m4"><div class="hud-card"><h3><span id="stat-admins">-</span></h3><p>Admin Operations</p></div></div>
+      </div>
+
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="card" style="padding:20px;">
+            <span class="step-label">Profile Editor</span>
+            <h6 id="form-title" style="margin-top:8px; margin-bottom:16px;">Add / Edit User Profile</h6>
+            <form id="staffForm" onsubmit="commitStaffProfile(event)">
+              <div class="compact-input"><label>Personnel Number</label><input type="text" id="staffId" placeholder="e.g. 12345678" required></div>
+              <div class="compact-input"><label>Staff Name</label><input type="text" id="staffName" placeholder="Full Name" required></div>
+              <div class="compact-input"><label>Markaz Name</label><input type="text" id="staffMarkaz" placeholder="Markaz" required></div>
+              <div class="compact-input"><label>Cell No.</label><input type="text" id="staffCell" placeholder="+92 xxx xxxxxxx" required></div>
+              <div class="compact-input"><label>Gmail ID</label><input type="email" id="staffEmail" placeholder="user@gmail.com" required></div>
+              <div class="row" style="margin-bottom:12px;">
+                <div class="col s6">
+                  <label>Status</label>
+                  <select id="staffStatus" class="browser-default">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+                <div class="col s6">
+                  <label>Role</label>
+                  <select id="staffRole" class="browser-default">
+                    <option value="User">User</option>
+                    <option value="Admin">Admin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-orange waves-effect" type="submit">Save Profile</button>
+                <button class="btn btn-ghost waves-effect" type="button" onclick="resetStaffFormState()">Clear</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col s12 m8">
+          <div class="custom-table-container">
+            <table class="compact-view">
+              <thead>
+                <tr>
+                  <th>Personnel No</th><th>Name</th><th>Markaz</th><th>Cell No</th>
+                  <th>Gmail ID</th><th>Status</th><th>Role</th><th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="directoryTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
+         PERFORMANCE DASHBOARD
+    ══════════════════════════════════ -->
+    <div id="dashboard-frame" style="display:none; max-width:1000px; margin:0 auto;">
+      <div id="admin-rollback-container" style="display:none; margin-bottom:12px;">
+        <button class="btn waves-effect" onclick="exitFormSimulation()">
+          <i class="material-icons left">arrow_back</i>Return to Management Console
+        </button>
+      </div>
+
+      <div class="header-banner" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h4 style="margin:0; font-size:1.8rem;">Monthly Performance Reporting System</h4>
+          <p id="dashboardSubtitle">Enter Personnel Number to fetch profile and submit monthly performance.</p>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <div id="loggedInBadge" style="display:none; background:var(--black-panel); border:1px solid var(--border); border-radius:4px; padding:6px 12px; font-size:0.8rem; color:var(--text-sec); align-items:center; gap:6px;">
+            <i class="material-icons" style="font-size:1rem; color:var(--green);">verified_user</i>
+            <span id="loggedInName" style="color:var(--text-primary); font-weight:600;"></span>
+          </div>
+          <button class="btn btn-ghost waves-effect" onclick="logoutUser()" title="Sign Out">
+            <i class="material-icons left">logout</i>Sign Out
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="card" style="padding:20px; margin-bottom:16px;">
+        <span class="step-label">Step 01</span>
+        <h6 style="margin-top:8px; margin-bottom:14px;">Fetch &amp; Verify Profile</h6>
+
+        <div id="ownProfileHint" style="display:none;" class="own-profile-hint">
+          <i class="material-icons" style="font-size:1rem; color:var(--orange);">info</i>
+          Your personnel number: <b id="ownPersonnelDisplay"></b> — pre-filled below.
+        </div>
+
+        <div class="row" style="margin-bottom:0; margin-top:10px;">
+          <div class="col s8">
+            <input type="text" id="fetchPersonnelNumber" placeholder="8-digit Personnel Number" maxlength="8">
+          </div>
+          <div class="col s4">
+            <button class="btn btn-orange waves-effect" id="fetchBtn" onclick="fetchStaffProfile()" style="width:100%; margin-top:2px;">
+              Fetch
+            </button>
+          </div>
+        </div>
+
+        <div id="staffDetailsContainer" style="display:none;" class="fetch-details-card">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:0.08em;">Profile Verified</div>
+            <div id="accessModeBadge"></div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-badge"><strong>Name:</strong> <span id="displayName">-</span></div>
+            <div class="detail-badge"><strong>Markaz:</strong> <span id="displayMarkaz">-</span></div>
+            <div class="detail-badge"><strong>Cell No:</strong> <span id="displayCell">-</span></div>
+            <div class="detail-badge"><strong>Status:</strong> <span id="displayStatus">-</span></div>
+          </div>
+
+          <div id="verifyOnlyNotice" style="display:none;" class="verify-only-notice">
+            <i class="material-icons">lock</i>
+            <div>
+              <div class="title">Verification Mode — Read Only</div>
+              <div class="body">
+                You are viewing <b id="verifyOnlyName"></b>'s profile for verification purposes.<br>
+                To generate a report, fetch <b>your own personnel number (<span id="verifyOwnNo"></span>)</b>.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="fetchError" style="display:none; margin-top:10px; font-size:0.88rem; color:var(--red); padding:8px 12px; background:var(--red-muted); border-left:3px solid var(--red); border-radius:3px;"></div>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="monthsSelectionSection" style="display:none;">
+        <div class="card" style="padding:20px; margin-bottom:16px;">
+          <span class="step-label">Step 02</span>
+          <h6 style="margin-top:8px; margin-bottom:14px;">Number of Months to Report (1–4)</h6>
+          <select id="monthsCount" class="browser-default" style="max-width:260px;" onchange="generateMonthForms()">
+            <option value="">— Select Count —</option>
+            <option value="1">1 Month</option>
+            <option value="2">2 Months</option>
+            <option value="3">3 Months</option>
+            <option value="4">4 Months</option>
+          </select>
+        </div>
+
+        <div id="monthFormsContainer"></div>
+
+        <div id="submitSection" style="display:none; margin-bottom:30px;">
+          <button class="btn-large btn-green waves-effect" id="submitReportBtn" style="width:100%; font-size:1.1rem; padding:0 24px; height:52px; letter-spacing:0.08em;">
+            <i class="material-icons left">file_download</i>Generate &amp; Download PDF Report
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /#app -->
+
+<script>
+  // ═══════════════════════════════════════════════════
+  //  CONFIGURATION — paste your Google Script URL here
+  // ═══════════════════════════════════════════════════
+  const API_URL = "https://script.google.com/macros/s/AKfycbzefSc3zrBnlNBhX2KhGeaPPc2caery-0JPCSd_uNaIgq1ImtglZ5Sk3vcvU9Bw8-6Avg/exec";
+
+  // ═══════════════════════════════════════════════════
+  //  GLOBAL STATE
+  // ═══════════════════════════════════════════════════
+  var globalSessionUser   = {};
+  var currentFetchedStaff = null;
+  var monthsDataStore     = [];
+  var sheetSerials        = [];
+  var dataLabels          = [];
+  var targetPercents      = [];
+  var entitlements        = [];
+  var sheetHeaders        = {};
+  var MONTH_NAMES = ['January','February','March','April','May','June',
+                     'July','August','September','October','November','December'];
+
+  // ═══════════════════════════════════════════════════
+  //  INIT
+  // ═══════════════════════════════════════════════════
+  document.addEventListener('DOMContentLoaded', function () {
+    // Fetch labels in the background (needed later for KPI table)
+    fetchDataLabels();
+
+    // Show login screen immediately — no Gmail detection
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+
+    // Allow pressing Enter on the login input
+    document.getElementById('loginInputPNo').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') attemptManualLogin();
+    });
+
+    // Only allow numeric input
+    document.getElementById('loginInputPNo').addEventListener('input', function () {
+      this.value = this.value.replace(/\D/g, '');
+    });
+  });
+
+  // ═══════════════════════════════════════════════════
+  //  API HELPER
+  // ═══════════════════════════════════════════════════
+  async function apiCall(action, payload) {
+    payload = payload || {};
+    try {
+      var response = await fetch(API_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: action, payload: payload })
+      });
+      return await response.json();
+    } catch (error) {
+      console.error('API Call Error:', error);
+      throw new Error('Network error. Please check your connection and try again.');
+    }
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  LOGIN
+  // ═══════════════════════════════════════════════════
+  function attemptManualLogin() {
+    var pNo = document.getElementById('loginInputPNo').value.trim();
+
+    // Validate
+    if (!/^\d{8}$/.test(pNo)) {
+      showLoginError('Personnel Number must be exactly 8 digits.');
+      return;
+    }
+
+    // Show loading state on button
+    var btn = document.getElementById('loginBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="material-icons" style="font-size:1.1rem; animation:spin 1s linear infinite;">refresh</i>&nbsp;Verifying…';
+
+    // Hide any previous error
+    document.getElementById('loginError').style.display = 'none';
+
+    apiCall('login', { personnelNumber: pNo })
+      .then(function (res) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="material-icons" style="font-size:1.15rem;">login</i> Sign In';
+        if (res.success) {
+          processRoutingMap(res.data);
+        } else {
+          showLoginError(res.message || 'Login failed. Please try again.');
+        }
+      })
+      .catch(function (err) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="material-icons" style="font-size:1.15rem;">login</i> Sign In';
+        showLoginError(err.message);
+      });
+  }
+
+  function showLoginError(msg) {
+    var box = document.getElementById('loginError');
+    box.textContent = msg;
+    box.style.display = 'block';
+  }
+
+  function logoutUser() {
+    globalSessionUser   = {};
+    currentFetchedStaff = null;
+    monthsDataStore     = [];
+
+    resetDashboardState();
+
+    document.getElementById('admin-panel').style.display    = 'none';
+    document.getElementById('dashboard-frame').style.display = 'none';
+    document.getElementById('app').style.display            = 'none';
+
+    document.getElementById('loginInputPNo').value   = '';
+    document.getElementById('loginError').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  ROUTING — admin vs user
+  // ═══════════════════════════════════════════════════
+  function processRoutingMap(user) {
+    globalSessionUser = user;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    if (user.isAdmin) {
+      document.getElementById('admin-panel').style.display    = 'block';
+      document.getElementById('dashboard-frame').style.display = 'none';
+      refreshOperationalDatabase();
+    } else {
+      document.getElementById('dashboard-frame').style.display = 'block';
+      document.getElementById('admin-panel').style.display    = 'none';
+      document.getElementById('admin-rollback-container').style.display = 'none';
+      document.getElementById('loggedInBadge').style.display  = 'flex';
+      document.getElementById('loggedInName').textContent     = user.name + ' (' + user.role + ')';
+
+      if (user.personnelNumber) {
+        document.getElementById('ownProfileHint').style.display    = 'flex';
+        document.getElementById('ownPersonnelDisplay').textContent = user.personnelNumber;
+        document.getElementById('fetchPersonnelNumber').value       = String(user.personnelNumber);
+      }
+    }
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  SHEET LABELS
+  // ═══════════════════════════════════════════════════
+  function fetchDataLabels() {
+    apiCall('getLabels').then(function (result) {
+      sheetSerials   = result.serials        || [];
+      dataLabels     = result.labels         || [];
+      targetPercents = result.targetPercents || [];
+      entitlements   = result.entitlements   || [];
+      if (result.headers) sheetHeaders = result.headers;
+    }).catch(function (e) { console.error('Labels fetch error:', e); });
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  ADMIN FUNCTIONS
+  // ═══════════════════════════════════════════════════
+  function refreshOperationalDatabase() {
+    apiCall('getAdminData', { callerPNo: globalSessionUser.personnelNumber })
+      .then(function (response) {
+        document.getElementById('stat-total').innerText  = response.stats.total;
+        document.getElementById('stat-active').innerText = response.stats.active;
+        document.getElementById('stat-admins').innerText = response.stats.admins;
+
+        var tbody = document.getElementById('directoryTableBody');
+        tbody.innerHTML = '';
+        response.staff.forEach(function (row) {
+          var sc = row.status.toUpperCase() === 'ACTIVE' ? 'status-active' : 'status-inactive';
+          var rc = row.role.toUpperCase() === 'ADMIN' ? 'role-admin' : '';
+          var tr = document.createElement('tr');
+          tr.innerHTML =
+            '<td><b style="color:var(--orange);">' + row.personnelNumber + '</b></td>' +
+            '<td>' + row.name + '</td><td>' + row.markaz + '</td><td>' + row.cellNo + '</td>' +
+            '<td style="color:var(--text-sec);">' + row.gmailId + '</td>' +
+            '<td><span class="status-pill ' + sc + '">' + row.status + '</span></td>' +
+            '<td><span class="role-pill ' + rc + '">' + row.role + '</span></td>' +
+            '<td class="center-align"><button class="btn btn-dark btn-small waves-effect" ' +
+              'onclick=\'populateProfileEditor(' + JSON.stringify(row) + ')\'>Modify</button></td>';
+          tbody.appendChild(tr);
+        });
+      }).catch(function (e) { alert('Error loading data: ' + e.message); });
+  }
+
+  function populateProfileEditor(row) {
+    document.getElementById('form-title').innerText    = 'Modify: ' + row.name;
+    document.getElementById('staffId').value           = row.personnelNumber;
+    document.getElementById('staffId').disabled        = true;
+    document.getElementById('staffName').value         = row.name;
+    document.getElementById('staffMarkaz').value       = row.markaz;
+    document.getElementById('staffCell').value         = row.cellNo;
+    document.getElementById('staffEmail').value        = row.gmailId;
+    document.getElementById('staffStatus').value       = row.status;
+    document.getElementById('staffRole').value         = row.role.charAt(0).toUpperCase() + row.role.slice(1).toLowerCase();
+  }
+
+  function resetStaffFormState() {
+    document.getElementById('form-title').innerText = 'Add / Edit User Profile';
+    document.getElementById('staffForm').reset();
+    document.getElementById('staffId').disabled = false;
+  }
+
+  function commitStaffProfile(e) {
+    e.preventDefault();
+    var data = {
+      personnelNumber: document.getElementById('staffId').value,
+      name:    document.getElementById('staffName').value,
+      markaz:  document.getElementById('staffMarkaz').value,
+      cellNo:  document.getElementById('staffCell').value,
+      gmailId: document.getElementById('staffEmail').value,
+      status:  document.getElementById('staffStatus').value,
+      role:    document.getElementById('staffRole').value
+    };
+    apiCall('upsertStaff', { callerPNo: globalSessionUser.personnelNumber, staffData: data })
+      .then(function (msg) {
+        alert(msg);
+        resetStaffFormState();
+        refreshOperationalDatabase();
+      }).catch(function (e) { alert('Error: ' + e.message); });
+  }
+
+  function toggleViewContext(isAdminSim) {
+    document.getElementById('admin-panel').style.display    = 'none';
+    document.getElementById('dashboard-frame').style.display = 'block';
+    document.getElementById('loggedInBadge').style.display  = 'flex';
+    document.getElementById('loggedInName').textContent     = globalSessionUser.name + ' (ADMIN)';
+    document.getElementById('ownProfileHint').style.display = 'none';
+    if (isAdminSim) document.getElementById('admin-rollback-container').style.display = 'block';
+    resetDashboardState();
+  }
+
+  function exitFormSimulation() {
+    resetDashboardState();
+    document.getElementById('dashboard-frame').style.display = 'none';
+    document.getElementById('admin-panel').style.display    = 'block';
+    refreshOperationalDatabase();
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  DASHBOARD — FETCH STAFF
+  // ═══════════════════════════════════════════════════
+  function resetDashboardState() {
+    document.getElementById('fetchPersonnelNumber').value          = '';
+    document.getElementById('staffDetailsContainer').style.display = 'none';
+    document.getElementById('monthsSelectionSection').style.display = 'none';
+    document.getElementById('monthFormsContainer').innerHTML       = '';
+    document.getElementById('fetchError').style.display           = 'none';
+    document.getElementById('monthsCount').value                  = '';
+    document.getElementById('verifyOnlyNotice').style.display     = 'none';
+    document.getElementById('accessModeBadge').innerHTML          = '';
+    currentFetchedStaff = null;
+    monthsDataStore     = [];
+  }
+
+  function fetchStaffProfile() {
+    var personnelNo = document.getElementById('fetchPersonnelNumber').value.trim();
+    if (!personnelNo) return showFetchError('Please enter a Personnel Number.');
+    if (!/^\d{8}$/.test(personnelNo)) return showFetchError('Personnel Number must be exactly 8 digits.');
+
+    var btn = document.getElementById('fetchBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="material-icons left" style="font-size:1rem;">hourglass_empty</i>Fetching…';
+
+    apiCall('getStaff', { targetPNo: personnelNo })
+      .then(function (result) {
+        btn.disabled = false;
+        btn.innerHTML = 'Fetch';
+
+        if (result.success) {
+          currentFetchedStaff = result.data;
+          document.getElementById('displayName').innerText   = result.data.name;
+          document.getElementById('displayMarkaz').innerText = result.data.markaz;
+          document.getElementById('displayCell').innerText   = result.data.cellNo;
+
+          var sSpan = document.getElementById('displayStatus');
+          sSpan.innerText   = result.data.status;
+          sSpan.style.color = result.data.status.toUpperCase() === 'ACTIVE' ? 'var(--green)' : 'var(--red)';
+
+          document.getElementById('staffDetailsContainer').style.display = 'block';
+          document.getElementById('fetchError').style.display            = 'none';
+
+          var isAdmin    = globalSessionUser.isAdmin;
+          var ownPNo     = String(globalSessionUser.personnelNumber || '').trim();
+          var fetchedPNo = String(personnelNo).trim();
+          var isOwn      = (ownPNo !== '' && ownPNo === fetchedPNo);
+
+          document.getElementById('monthsSelectionSection').style.display = 'block';
+          document.getElementById('verifyOnlyNotice').style.display       = 'none';
+          document.getElementById('accessModeBadge').innerHTML = (isAdmin && !isOwn)
+            ? '<span style="background:var(--orange-muted);color:var(--orange);border:1px solid var(--orange-dark);border-radius:3px;padding:3px 8px;font-size:0.72rem;font-weight:800;text-transform:uppercase;">Admin Access</span>'
+            : '<span style="background:var(--green-muted);color:var(--green);border:1px solid var(--green-dark);border-radius:3px;padding:3px 8px;font-size:0.72rem;font-weight:800;text-transform:uppercase;">Authorized Access</span>';
+
+          document.getElementById('monthsCount').value             = '';
+          document.getElementById('monthFormsContainer').innerHTML = '';
+          document.getElementById('submitSection').style.display   = 'none';
+          monthsDataStore = [];
+        } else {
+          showFetchError(result.message);
+          document.getElementById('staffDetailsContainer').style.display  = 'none';
+          document.getElementById('monthsSelectionSection').style.display = 'none';
+          currentFetchedStaff = null;
+        }
+      })
+      .catch(function (err) {
+        btn.disabled  = false;
+        btn.innerHTML = 'Fetch';
+        showFetchError(err.message);
+      });
+  }
+
+  function showFetchError(msg) {
+    var d = document.getElementById('fetchError');
+    d.innerText       = msg;
+    d.style.display   = 'block';
+    setTimeout(function () { d.style.display = 'none'; }, 5000);
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  MONTH FORMS
+  // ═══════════════════════════════════════════════════
+  function getUsedMonthYearPairs(exceptIdx) {
+    var used = [];
+    monthsDataStore.forEach(function (m) {
+      if (m.index !== exceptIdx && m.monthName && m.year && m.status !== undefined)
+        used.push(m.monthName + '|' + m.year);
+    });
+    return used;
+  }
+
+  function syncAllMonthSelectors() {
+    for (var i = 0; i < monthsDataStore.length; i++) {
+      var idx     = monthsDataStore[i].index;
+      var sel     = document.getElementById('monthSel_'  + idx);
+      var yearSel = document.getElementById('yearSel_'   + idx);
+      if (!sel || !yearSel) continue;
+      var chosenYear = yearSel.value;
+      var used = getUsedMonthYearPairs(idx);
+      for (var o = 0; o < sel.options.length; o++) {
+        var key    = sel.options[o].value + '|' + chosenYear;
+        var isUsed = used.indexOf(key) !== -1;
+        sel.options[o].disabled   = isUsed;
+        sel.options[o].style.color = isUsed ? 'var(--text-muted)' : '';
+      }
+      var currentKey = sel.value + '|' + chosenYear;
+      if (used.indexOf(currentKey) !== -1) {
+        for (var o2 = 0; o2 < sel.options.length; o2++) {
+          if (!sel.options[o2].disabled) {
+            sel.value = sel.options[o2].value;
+            updateMonthData(idx, 'monthName', sel.value);
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  function generateMonthForms() {
+    var cnt       = parseInt(document.getElementById('monthsCount').value, 10);
+    var container = document.getElementById('monthFormsContainer');
+    container.innerHTML = '';
+    monthsDataStore     = [];
+
+    if (isNaN(cnt) || cnt < 1 || cnt > 4) {
+      document.getElementById('submitSection').style.display = 'none';
+      return;
+    }
+
+    var currentYear = new Date().getFullYear();
+    for (var i = 0; i < cnt; i++) {
+      (function (idx) {
+        var initValues = new Array(16).fill('');
+        for (var v = 9; v <= 15; v++) initValues[v] = 'Yes';
+        monthsDataStore.push({ index: idx, monthName: MONTH_NAMES[0], year: String(currentYear), status: '', dataValues: initValues });
+
+        var card = document.createElement('div');
+        card.className = 'month-card';
+        card.id        = 'monthCard_' + idx;
+        var h6 = document.createElement('h6');
+        h6.textContent = 'Month ' + (idx + 1) + ' — Details';
+        card.appendChild(h6);
+
+        var row = document.createElement('div'); row.className = 'row';
+
+        // Month selector
+        var col1 = document.createElement('div'); col1.className = 'col s12 m4';
+        var lbl1 = document.createElement('label'); lbl1.textContent = 'Month Name'; col1.appendChild(lbl1);
+        var monthSel = document.createElement('select'); monthSel.className = 'browser-default'; monthSel.id = 'monthSel_' + idx;
+        MONTH_NAMES.forEach(function (m) {
+          var opt = document.createElement('option'); opt.value = m; opt.textContent = m; monthSel.appendChild(opt);
+        });
+        monthSel.addEventListener('change', function () { updateMonthData(idx, 'monthName', this.value); syncAllMonthSelectors(); });
+        col1.appendChild(monthSel);
+
+        // Year selector
+        var col2 = document.createElement('div'); col2.className = 'col s12 m4';
+        var lbl2 = document.createElement('label'); lbl2.textContent = 'Year'; col2.appendChild(lbl2);
+        var yearSel = document.createElement('select'); yearSel.className = 'browser-default'; yearSel.id = 'yearSel_' + idx;
+        [currentYear - 1, currentYear].forEach(function (yr) {
+          var opt = document.createElement('option'); opt.value = String(yr); opt.textContent = yr;
+          if (yr === currentYear) opt.selected = true;
+          yearSel.appendChild(opt);
+        });
+        yearSel.addEventListener('change', function () { updateMonthData(idx, 'year', this.value); syncAllMonthSelectors(); });
+        col2.appendChild(yearSel);
+
+        // Status selector
+        var col3 = document.createElement('div'); col3.className = 'col s12 m4';
+        var lbl3 = document.createElement('label'); lbl3.textContent = 'School Status'; col3.appendChild(lbl3);
+        var statusSel = document.createElement('select'); statusSel.className = 'browser-default';
+        [['', '— Select —'], ['Open', 'Open'], ['Closed', 'Closed']].forEach(function (pair) {
+          var opt = document.createElement('option'); opt.value = pair[0]; opt.textContent = pair[1]; statusSel.appendChild(opt);
+        });
+        statusSel.addEventListener('change', function () { handleStatusChange(idx, this.value); });
+        col3.appendChild(statusSel);
+
+        row.appendChild(col1); row.appendChild(col2); row.appendChild(col3);
+        card.appendChild(row);
+
+        var dataDiv = document.createElement('div'); dataDiv.id = 'dataEntry_' + idx; dataDiv.style.display = 'none';
+        card.appendChild(dataDiv);
+        container.appendChild(card);
+      })(i);
+    }
+
+    document.getElementById('submitSection').style.display = 'block';
+    document.getElementById('submitReportBtn').onclick = submitCompleteReport;
+    syncAllMonthSelectors();
+  }
+
+  function updateMonthData(idx, field, value) {
+    var obj = monthsDataStore.find(function (m) { return m.index === idx; });
+    if (obj) obj[field] = value;
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  KPI CALCULATION HELPERS
+  // ═══════════════════════════════════════════════════
+  function getRowTarget(rowNum) {
+    var dvIdx = rowNum - 9;
+    if (targetPercents.length > dvIdx && targetPercents[dvIdx] !== '' && targetPercents[dvIdx] !== null) {
+      var p = parseFloat(targetPercents[dvIdx]);
+      if (!isNaN(p)) return p;
+    }
+    return 0;
+  }
+
+  function computeFValue(rowNum, dValue) {
+    if (rowNum === 10) return 'not_applicable';
+    if (rowNum >= 18 && rowNum <= 24) return dValue === 'Yes' ? 'achieved' : 'not_achieved';
+    if (dValue === '' || dValue === null || dValue === undefined) return 'pending';
+    var num = parseFloat(dValue);
+    if (isNaN(num)) return 'pending';
+    return (num >= getRowTarget(rowNum)) ? 'achieved' : 'not_achieved';
+  }
+
+  function getEntitlementDisplay(rowNum, dValue) {
+    var dvIdx = rowNum - 9;
+    var raw   = (entitlements.length > dvIdx) ? entitlements[dvIdx] : '';
+    if (raw === '' || raw === null || raw === undefined) return '—';
+    var result = computeFValue(rowNum, dValue);
+    if (result === 'not_achieved') return '0';
+    return raw;
+  }
+
+  function renderFBadge(result) {
+    if (result === 'not_applicable') return '<span class="badge-pending" style="color:#60a5fa; border-color:#1e3a5f; background:#0f172a;">Not Applicable</span>';
+    if (result === 'achieved')       return '<span class="badge-achieved">✓ Achieved</span>';
+    if (result === 'not_achieved')   return '<span class="badge-not-achieved">✗ Not Achieved</span>';
+    return '<span class="badge-pending">—</span>';
+  }
+
+  function calculateMonthAllowance(idx) {
+    var obj = monthsDataStore.find(function (m) { return m.index === idx; });
+    if (!obj) return;
+    var deductions = 0;
+    for (var r = 9; r <= 24; r++) {
+      if (r === 10) continue;
+      var dVal    = obj.dataValues[r - 9];
+      var fResult = computeFValue(r, dVal);
+      if (fResult === 'not_achieved' || fResult === 'pending') deductions++;
+    }
+    var finalAllowance = Math.max(0, 25000 - (deductions * 1000));
+    var summaryEl = document.getElementById('allowance_summary_' + idx);
+    if (summaryEl) {
+      summaryEl.innerHTML =
+        '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+          '<span><i class="material-icons left" style="color:var(--orange); font-size:1.3rem; margin-right:8px; vertical-align:middle;">account_balance_wallet</i><b>Live Allowance Estimate:</b></span>' +
+          '<span style="font-size:1.3rem; font-weight:800; color:' + (finalAllowance === 25000 ? 'var(--green)' : 'var(--orange)') + ';">Rs ' + finalAllowance + '</span>' +
+        '</div>' +
+        (deductions > 0
+          ? '<div style="font-size:0.85rem; color:var(--text-sec); margin-top:4px; text-align:right;">(-' + deductions + '000 for missed or empty targets)</div>'
+          : '<div style="font-size:0.85rem; color:var(--green); margin-top:4px; text-align:right;">(All targets met!)</div>');
+    }
+  }
+
+  function refreshFCell(idx, rowNum) {
+    var cell = document.getElementById('fcell_' + idx + '_' + rowNum);
+    if (!cell) return;
+    var obj = monthsDataStore.find(function (m) { return m.index === idx; });
+    if (!obj) return;
+    var dVal = obj.dataValues[rowNum - 9];
+    cell.innerHTML = renderFBadge(computeFValue(rowNum, dVal));
+    var eCell = document.getElementById('ecell_' + idx + '_' + rowNum);
+    if (eCell) {
+      var ent = getEntitlementDisplay(rowNum, dVal);
+      if (ent === '0')        eCell.innerHTML = '<span style="color:var(--red);font-weight:700;">Rs 0</span>';
+      else if (ent === '—')   eCell.textContent = '—';
+      else                    eCell.innerHTML = '<span style="color:var(--green);font-weight:700;">Rs ' + ent + '</span>';
+    }
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  STATUS CHANGE → build or clear data entry area
+  // ═══════════════════════════════════════════════════
+  function handleStatusChange(idx, status) {
+    updateMonthData(idx, 'status', status);
+    var dataDiv = document.getElementById('dataEntry_' + idx);
+    if (!dataDiv) return;
+    while (dataDiv.firstChild) dataDiv.removeChild(dataDiv.firstChild);
+
+    if (status === 'Open') {
+      buildKpiTable(idx, dataDiv);
+      dataDiv.style.display = 'block';
+    } else if (status === 'Closed') {
+      var note = document.createElement('div');
+      note.className   = 'closed-note';
+      note.textContent = '✓ No data entry required for a closed month.';
+      dataDiv.appendChild(note);
+      dataDiv.style.display = 'block';
+    } else {
+      dataDiv.style.display = 'none';
+    }
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  KPI TABLE BUILDER
+  // ═══════════════════════════════════════════════════
+  function buildKpiTable(idx, container) {
+    var obj = monthsDataStore.find(function (m) { return m.index === idx; });
+
+    var legend = document.createElement('div');
+    legend.className = 'table-legend';
+    legend.innerHTML =
+      '<span style="font-weight:700; color:var(--text-primary); font-family:\'Barlow Condensed\',sans-serif; font-size:0.85rem; letter-spacing:0.04em; text-transform:uppercase;">Performance Entry Grid</span>' +
+      '<span class="legend-item"><span class="legend-dot" style="background:var(--black-panel); border:1px solid var(--border);"></span> Locked</span>' +
+      '<span class="legend-item"><span class="legend-dot" style="background:var(--black-panel); border:1.5px solid var(--orange);"></span> Editable</span>' +
+      '<span class="legend-item">' + renderFBadge('achieved') + '</span>' +
+      '<span class="legend-item">' + renderFBadge('not_achieved') + '</span>';
+    container.appendChild(legend);
+
+    var wrap  = document.createElement('div'); wrap.className  = 'kpi-table-wrap';
+    var table = document.createElement('table'); table.className = 'kpi-table';
+    var thead = document.createElement('thead');
+    var hRow  = document.createElement('tr');
+    var hB    = (sheetHeaders && sheetHeaders.B8) ? sheetHeaders.B8 : '#';
+    var cols  = [
+      { label: hB,                    width: '50px',  align: 'center' },
+      { label: 'Indicators',          width: '160px', align: 'left'   },
+      { label: 'Target / Standard',   width: '100px', align: 'center' },
+      { label: 'Achieved % / Status', width: '120px', align: 'center' },
+      { label: 'Entitlement (Rs)',     width: '130px', align: 'center' },
+      { label: 'Result',              width: '130px', align: 'center' }
+    ];
+    cols.forEach(function (c) {
+      var th = document.createElement('th');
+      th.textContent  = c.label;
+      th.style.width  = c.width;
+      th.style.textAlign = c.align;
+      hRow.appendChild(th);
+    });
+    thead.appendChild(hRow);
+    table.appendChild(thead);
+
+    var tbody = document.createElement('tbody');
+
+    for (var rowNum = 9; rowNum <= 24; rowNum++) {
+      (function (r) {
+        var dvIdx         = r - 9;
+        var isRow10       = (r === 10);
+        var isYesNo       = (r >= 18 && r <= 24);
+        var indicatorText = (dataLabels.length > dvIdx) ? (dataLabels[dvIdx] || 'Row ' + r) : 'Row ' + r;
+        var rowTarget     = '';
+        if (targetPercents.length > dvIdx) {
+          var tp = targetPercents[dvIdx];
+          rowTarget = (tp !== '' && tp !== null && tp !== undefined) ? tp : '—';
+        }
+        var entRaw = (entitlements.length > dvIdx) ? entitlements[dvIdx] : '—';
+        if (entRaw === '' || entRaw === null || entRaw === undefined) entRaw = '—';
+
+        var tr = document.createElement('tr');
+
+        // Col B — serial
+        var td1 = document.createElement('td'); td1.className = 'col-b locked-cell';
+        td1.textContent = (sheetSerials.length > dvIdx && sheetSerials[dvIdx] !== '') ? sheetSerials[dvIdx] : (dvIdx + 1);
+        tr.appendChild(td1);
+
+        // Col C — indicator label
+        var td2 = document.createElement('td'); td2.className = 'col-c locked-cell'; td2.style.fontWeight = '500';
+        td2.textContent = indicatorText; tr.appendChild(td2);
+
+        // Col E — target
+        var td3 = document.createElement('td'); td3.className = 'col-e locked-cell'; td3.style.textAlign = 'center';
+        if (!isRow10 && rowTarget !== '—' && rowTarget !== '') {
+          td3.style.color      = 'var(--orange)';
+          td3.style.fontWeight = '700';
+        }
+        td3.textContent = rowTarget; tr.appendChild(td3);
+
+        // Col D — data input
+        var td4 = document.createElement('td'); td4.className = 'col-d';
+        if (isRow10) {
+          td4.className += ' locked-cell';
+          var inp10 = document.createElement('input');
+          inp10.className = 'editable-input'; inp10.type = 'text';
+          inp10.value = 'Not Conducted By PMIU'; inp10.disabled = true;
+          td4.appendChild(inp10);
+        } else if (isYesNo) {
+          var sel = document.createElement('select');
+          sel.className = 'browser-default editable-input';
+          sel.style.height = 'auto'; sel.style.padding = '5px 8px';
+          sel.id = 'dinput_' + idx + '_' + r;
+          var optYes = document.createElement('option'); optYes.value = 'Yes'; optYes.textContent = 'Yes';
+          var optNo  = document.createElement('option'); optNo.value  = 'No';  optNo.textContent  = 'No';
+          sel.appendChild(optYes); sel.appendChild(optNo);
+          sel.value = obj ? (obj.dataValues[dvIdx] || 'Yes') : 'Yes';
+          sel.addEventListener('change', function () {
+            updateDataValue(idx, r, this.value);
+            refreshFCell(idx, r);
+            calculateMonthAllowance(idx);
+          });
+          td4.appendChild(sel);
+        } else {
+          var inp = document.createElement('input');
+          inp.className   = 'editable-input'; inp.type = 'number';
+          inp.placeholder = '0–100'; inp.min = '0'; inp.max = '100';
+          inp.value       = obj ? (obj.dataValues[dvIdx] || '') : '';
+          inp.id          = 'dinput_' + idx + '_' + r;
+          inp.addEventListener('input', function () {
+            var v = parseFloat(this.value);
+            if (!isNaN(v) && v > 100) {
+              this.value = '100';
+              this.style.borderColor = 'var(--red)';
+              var el = this;
+              setTimeout(function () { el.style.borderColor = ''; }, 1200);
+            } else if (!isNaN(v) && v < 0) {
+              this.value = '0';
+            }
+            updateDataValue(idx, r, this.value);
+            refreshFCell(idx, r);
+            calculateMonthAllowance(idx);
+          });
+          td4.appendChild(inp);
+        }
+        tr.appendChild(td4);
+
+        // Col E — entitlement
+        var td5      = document.createElement('td'); td5.className = 'col-e locked-cell'; td5.style.textAlign = 'center'; td5.id = 'ecell_' + idx + '_' + r;
+        var initVal  = obj ? (obj.dataValues[dvIdx] || '') : '';
+        var initEnt  = getEntitlementDisplay(r, initVal);
+        var initRes  = computeFValue(r, initVal);
+        if (initEnt === '—')            td5.textContent = '—';
+        else if (initEnt === '0')        td5.innerHTML = '<span style="color:var(--red);font-weight:700;">Rs 0</span>';
+        else if (initRes === 'pending')  td5.innerHTML = '<span style="color:var(--text-muted);">Rs ' + entRaw + '</span>';
+        else                             td5.innerHTML = '<span style="color:var(--green);font-weight:700;">Rs ' + entRaw + '</span>';
+        tr.appendChild(td5);
+
+        // Col F — result badge
+        var td6 = document.createElement('td'); td6.className = 'col-f'; td6.id = 'fcell_' + idx + '_' + r;
+        td6.innerHTML = renderFBadge(initRes); tr.appendChild(td6);
+
+        tbody.appendChild(tr);
+      })(rowNum);
+    }
+
+    table.appendChild(tbody); wrap.appendChild(table); container.appendChild(wrap);
+
+    // Allowance summary
+    var summaryDiv = document.createElement('div');
+    summaryDiv.id = 'allowance_summary_' + idx;
+    summaryDiv.style.cssText = 'margin-top:15px; padding:12px 18px; background:var(--black-panel); border-left:4px solid var(--orange); border-radius:4px; font-family:"DM Sans",sans-serif;';
+    container.appendChild(summaryDiv);
+    calculateMonthAllowance(idx);
+
+    // Footer note
+    var note = document.createElement('p');
+    note.style.cssText = 'font-size:0.78rem; color:var(--text-muted); margin-top:12px; margin-bottom:0; display:flex; align-items:center; gap:4px;';
+    note.innerHTML = '<i class="material-icons" style="font-size:0.9rem; color:var(--orange);">lock</i>Row 10 is locked. Rows 18–24 are dropdowns. Deductions reflect instantly on the certificate (−1000 per missing target).';
+    container.appendChild(note);
+  }
+
+  function updateDataValue(idx, rowNum, value) {
+    var obj = monthsDataStore.find(function (m) { return m.index === idx; });
+    if (obj) obj.dataValues[rowNum - 9] = value;
+  }
+
+  // ═══════════════════════════════════════════════════
+  //  VALIDATE & SUBMIT
+  // ═══════════════════════════════════════════════════
+  function validateAndCollectData() {
+    for (var i = 0; i < monthsDataStore.length; i++) {
+      var m = monthsDataStore[i];
+      if (!m.monthName || !m.year || !m.status)
+        return alert('Month ' + (i + 1) + ': Please select Month Name, Year, and School Status.'), null;
+
+      if (m.status === 'Open') {
+        for (var row = 9; row <= 24; row++) {
+          if (row === 10 || (row >= 18 && row <= 24)) continue;
+          var val = m.dataValues[row - 9];
+          if (val !== '' && val !== null && val !== undefined) {
+            var num = parseFloat(val);
+            if (isNaN(num) || num < 0 || num > 100)
+              return alert('Month ' + (i + 1) + ', Row ' + row + ': must be a number between 0 and 100.'), null;
+          }
+        }
+      }
+    }
+    return monthsDataStore;
+  }
+
+  function base64ToBlob(base64, mime) {
+    var binary = atob(base64);
+    var array  = [];
+    for (var i = 0; i < binary.length; i++) array.push(binary.charCodeAt(i));
+    return new Blob([new Uint8Array(array)], { type: mime });
+  }
+
+  function submitCompleteReport() {
+    if (!currentFetchedStaff) return alert('Please fetch a valid staff profile first.');
+    if (currentFetchedStaff.status.toUpperCase() !== 'ACTIVE') return alert('Cannot submit report for an inactive staff member.');
+
+    var validated = validateAndCollectData();
+    if (!validated) return;
+
+    var payload = {
+      staff:  currentFetchedStaff,
+      months: validated.map(function (m) {
+        return { monthName: m.monthName, year: m.year, status: m.status, dataValues: m.dataValues };
+      })
+    };
+
+    var btn      = document.getElementById('submitReportBtn');
+    var origText = btn.innerHTML;
+    btn.disabled = true;
+
+    var timeLeft = 30;
+    btn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Generating PDF... (' + timeLeft + 's)';
+    var timerId = setInterval(function () {
+      timeLeft--;
+      if (timeLeft <= 0) {
+        btn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Wrapping up PDF…';
+        clearInterval(timerId);
+      } else {
+        btn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Generating PDF... (' + timeLeft + 's)';
+      }
+    }, 1000);
+
+    apiCall('generateReport', payload)
+      .then(function (res) {
+        clearInterval(timerId);
+        btn.disabled  = false;
+        btn.innerHTML = origText;
+
+        if (res.success && res.pdfBase64) {
+          var blob = base64ToBlob(res.pdfBase64, 'application/pdf');
+          var url  = URL.createObjectURL(blob);
+          var a    = document.createElement('a');
+          a.href     = url;
+          a.download = res.fileName;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+          alert(res.message);
+          resetDashboardState();
+        } else {
+          alert(res.message || 'An unexpected error occurred during generation.');
+        }
+      })
+      .catch(function (err) {
+        clearInterval(timerId);
+        btn.disabled  = false;
+        btn.innerHTML = origText;
+        alert('Error: ' + err.message);
+      });
+  }
+
+  /* spin animation for loading button */
+  var style = document.createElement('style');
+  style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+  document.head.appendChild(style);
+</script>
+</body>
+</html>
