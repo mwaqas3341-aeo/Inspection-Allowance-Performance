@@ -383,7 +383,7 @@
         <div class="circle-clipper right"><div class="circle"></div></div>
       </div>
     </div>
-    <p style="margin-top:20px; color:var(--text-muted); font-weight:600; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.1em; text-transform:uppercase; font-size:0.9rem;">Initialising System…</p>
+    <p style="margin-top:20px; color:var(--text-muted); font-weight:600; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.1em; text-transform:uppercase; font-size:0.9rem;">Initialising Database Connections…</p>
   </div>
 
   <div id="login-screen" style="display:none; min-height:100vh; align-items:center; justify-content:center; padding:20px;">
@@ -576,27 +576,6 @@
   // ═══════════════════════════════════════════════════
   const API_URL = "https://script.google.com/macros/s/AKfycbzefSc3zrBnlNBhX2KhGeaPPc2caery-0JPCSd_uNaIgq1ImtglZ5Sk3vcvU9Bw8-6Avg/exec";
 
-  // HARDCODED KPI LABELS TO PREVENT UI FROM SHOWING "Row 9"
-  // Update these strings to strictly match your desired metrics.
-  const HARDCODED_LABELS = [
-    "[Enter Label for Row 9]",        // Index 0 (Row 9)
-    "Not Conducted By PMIU",          // Index 1 (Row 10 - Locked)
-    "[Enter Label for Row 11]",       // Index 2 (Row 11)
-    "[Enter Label for Row 12]",       // Index 3 (Row 12)
-    "[Enter Label for Row 13]",       // Index 4 (Row 13)
-    "[Enter Label for Row 14]",       // Index 5 (Row 14)
-    "[Enter Label for Row 15]",       // Index 6 (Row 15)
-    "[Enter Label for Row 16]",       // Index 7 (Row 16)
-    "[Enter Label for Row 17]",       // Index 8 (Row 17)
-    "[Enter Label for Row 18]",       // Index 9 (Row 18 - Yes/No)
-    "[Enter Label for Row 19]",       // Index 10 (Row 19 - Yes/No)
-    "[Enter Label for Row 20]",       // Index 11 (Row 20 - Yes/No)
-    "[Enter Label for Row 21]",       // Index 12 (Row 21 - Yes/No)
-    "[Enter Label for Row 22]",       // Index 13 (Row 22 - Yes/No)
-    "[Enter Label for Row 23]",       // Index 14 (Row 23 - Yes/No)
-    "[Enter Label for Row 24]"        // Index 15 (Row 24 - Yes/No)
-  ];
-
   // ═══════════════════════════════════════════════════
   //  GLOBAL STATE
   // ═══════════════════════════════════════════════════
@@ -604,16 +583,19 @@
   var currentFetchedStaff = null;
   var monthsDataStore     = [];
   var sheetSerials        = [];
+  var dataLabels          = []; // Dynamically fetched from sheet
   var targetPercents      = [];
   var entitlements        = [];
   var sheetHeaders        = {};
   var MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
   // ═══════════════════════════════════════════════════
-  //  INIT
+  //  INIT - ELIMINATED RACE CONDITION
   // ═══════════════════════════════════════════════════
-  document.addEventListener('DOMContentLoaded', function () {
-    fetchDataLabels();
+  document.addEventListener('DOMContentLoaded', async function () {
+    // Await the labels before showing the login screen so they never fail to load
+    await fetchDataLabels();
+    
     document.getElementById('loading').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
 
@@ -624,6 +606,19 @@
       this.value = this.value.replace(/\D/g, '');
     });
   });
+
+  async function fetchDataLabels() {
+    try {
+      var result = await apiCall('getLabels');
+      sheetSerials   = result.serials        || [];
+      dataLabels     = result.labels         || [];
+      targetPercents = result.targetPercents || [];
+      entitlements   = result.entitlements   || [];
+      if (result.headers) sheetHeaders = result.headers;
+    } catch (e) {
+      console.error('Labels fetch error:', e);
+    }
+  }
 
   // ═══════════════════════════════════════════════════
   //  API HELPER
@@ -730,18 +725,6 @@
         fetchStaffProfile(); // Automatically fetch their data
       }
     }
-  }
-
-  // ═══════════════════════════════════════════════════
-  //  SHEET LABELS
-  // ═══════════════════════════════════════════════════
-  function fetchDataLabels() {
-    apiCall('getLabels').then(function (result) {
-      sheetSerials   = result.serials        || [];
-      targetPercents = result.targetPercents || [];
-      entitlements   = result.entitlements   || [];
-      if (result.headers) sheetHeaders = result.headers;
-    }).catch(function (e) { console.error('Labels fetch error:', e); });
   }
 
   // ═══════════════════════════════════════════════════
@@ -1131,15 +1114,17 @@
     var table = document.createElement('table'); table.className = 'kpi-table';
     var thead = document.createElement('thead');
     var hRow  = document.createElement('tr');
-    var hB    = (sheetHeaders && sheetHeaders.B8) ? sheetHeaders.B8 : '#';
+    
+    // Explicitly setting column headers to prevent "Indicators" showing twice
     var cols  = [
-      { label: Sr.,                    width: '50px',  align: 'center' },
+      { label: 'Sr No.',              width: '50px',  align: 'center' },
       { label: 'Indicators',          width: '160px', align: 'left'   },
       { label: 'Target / Standard',   width: '100px', align: 'center' },
       { label: 'Achieved % / Status', width: '120px', align: 'center' },
-      { label: 'Entitlement (Rs)',     width: '130px', align: 'center' },
+      { label: 'Entitlement (Rs)',    width: '130px', align: 'center' },
       { label: 'Result',              width: '130px', align: 'center' }
     ];
+    
     cols.forEach(function (c) {
       var th = document.createElement('th'); th.textContent = c.label; th.style.width = c.width; th.style.textAlign = c.align; hRow.appendChild(th);
     });
@@ -1152,7 +1137,10 @@
         var dvIdx         = r - 9;
         var isRow10       = (r === 10);
         var isYesNo       = (r >= 18 && r <= 24);
-        var indicatorText = HARDCODED_LABELS[dvIdx]; // HARDCODED LABEL FIX HERE
+        
+        // Safely pull from dynamically fetched labels array instead of hardcoded
+        var indicatorText = (dataLabels.length > dvIdx && dataLabels[dvIdx] !== '') ? dataLabels[dvIdx] : 'Row ' + r;
+        
         var rowTarget     = '';
         if (targetPercents.length > dvIdx) {
           var tp = targetPercents[dvIdx]; rowTarget = (tp !== '' && tp !== null && tp !== undefined) ? tp : '—';
