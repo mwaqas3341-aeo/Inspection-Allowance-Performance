@@ -1043,30 +1043,34 @@
     return '<span class="badge-pending">—</span>';
   }
 
-  function calculateMonthAllowance(idx) {
+ function calculateMonthAllowance(idx) {
     var obj = monthsDataStore.find(function (m) { return m.index === idx; });
     if (!obj) return;
-    var deductions = 0;
+    
+    var totalEarned = 0;
+    
     for (var r = 9; r <= 24; r++) {
-      if (r === 10) continue;
-      var dVal    = obj.dataValues[r - 9];
-      var fResult = computeFValue(r, dVal);
-      if (fResult === 'not_achieved' || fResult === 'pending') deductions++;
+      var dvIdx = r - 9;
+      var dVal = obj.dataValues[dvIdx];
+      
+      if (r === 9) { // AEO Visit
+        if (parseFloat(dVal) >= getRowTarget(9)) totalEarned += 10000;
+      } else if (r === 10) { // LND
+        totalEarned += 1000;
+      } else { // Others
+        if (computeFValue(r, dVal) === 'achieved') totalEarned += 1000;
+      }
     }
-    var finalAllowance = Math.max(0, 25000 - (deductions * 1000));
+
     var summaryEl = document.getElementById('allowance_summary_' + idx);
     if (summaryEl) {
-      summaryEl.innerHTML =
+      summaryEl.innerHTML = 
         '<div style="display:flex; justify-content:space-between; align-items:center;">' +
-          '<span><i class="material-icons left" style="color:var(--orange); font-size:1.3rem; margin-right:8px; vertical-align:middle;">account_balance_wallet</i><b>Live Allowance Estimate:</b></span>' +
-          '<span style="font-size:1.3rem; font-weight:800; color:' + (finalAllowance === 25000 ? 'var(--green)' : 'var(--orange)') + ';">Rs ' + finalAllowance + '</span>' +
-        '</div>' +
-        (deductions > 0
-          ? '<div style="font-size:0.85rem; color:var(--text-sec); margin-top:4px; text-align:right;">(-' + deductions + '000 for missed or empty targets)</div>'
-          : '<div style="font-size:0.85rem; color:var(--green); margin-top:4px; text-align:right;">(All targets met!)</div>');
+          '<span><b>Total Earned:</b></span>' +
+          '<span style="font-size:1.3rem; font-weight:800; color:var(--green);">Rs ' + totalEarned + '</span>' +
+        '</div>';
     }
   }
-
   function refreshFCell(idx, rowNum) {
     var cell = document.getElementById('fcell_' + idx + '_' + rowNum);
     if (!cell) return;
