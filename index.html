@@ -124,6 +124,7 @@
       border-color: var(--orange) !important;
       box-shadow: 0 0 0 3px var(--orange-glow) !important;
     }
+    input:disabled { opacity: 0.6; cursor: not-allowed; }
     input::placeholder { color: var(--text-muted) !important; }
 
     select.browser-default {
@@ -151,30 +152,15 @@
       text-transform: uppercase !important;
       border-radius: 4px !important;
     }
-    .btn-orange {
-      background: var(--orange) !important;
-      color: #fff !important;
-      border: none;
-    }
+    .btn-orange { background: var(--orange) !important; color: #fff !important; border: none; }
     .btn-orange:hover { background: var(--orange-dark) !important; }
-    .btn-green {
-      background: var(--green-dark) !important;
-      color: #fff !important;
-      border: 1px solid var(--green) !important;
-    }
+    .btn-green { background: var(--green-dark) !important; color: #fff !important; border: 1px solid var(--green) !important; }
     .btn-green:hover { background: var(--green) !important; color: #000 !important; }
-    .btn-ghost {
-      background: transparent !important;
-      color: var(--text-sec) !important;
-      border: 1px solid var(--border) !important;
-    }
+    .btn-ghost { background: transparent !important; color: var(--text-sec) !important; border: 1px solid var(--border) !important; }
     .btn-ghost:hover { border-color: var(--orange) !important; color: var(--orange) !important; }
-    .btn-dark {
-      background: var(--black-panel) !important;
-      color: var(--text-primary) !important;
-      border: 1px solid var(--border) !important;
-    }
+    .btn-dark { background: var(--black-panel) !important; color: var(--text-primary) !important; border: 1px solid var(--border) !important; }
     .btn-dark:hover { border-color: var(--orange) !important; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed !important; pointer-events: none; }
 
     .card-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
 
@@ -254,17 +240,6 @@
     }
     .detail-badge strong { color: var(--text-primary); }
 
-    .month-select-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 5px;
-      display: block;
-    }
-    .month-select-wrap { margin-bottom: 10px; }
-
     .closed-note {
       background: var(--green-muted);
       border-left: 4px solid var(--green);
@@ -277,40 +252,18 @@
     }
 
     /* ── KPI Spreadsheet Table ── */
-    .kpi-table-wrap {
-      margin-top: 14px;
-      border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-    .kpi-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.86rem;
-      background: var(--black-card);
-    }
+    .kpi-table-wrap { margin-top: 14px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
+    .kpi-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; background: var(--black-card); }
     .kpi-table thead tr { background: var(--orange); }
     .kpi-table thead th {
-      padding: 10px 8px;
-      text-align: center;
-      font-weight: 800;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      border-right: 1px solid rgba(0,0,0,0.2);
-      color: #000;
-      font-family: 'Barlow Condensed', sans-serif;
+      padding: 10px 8px; text-align: center; font-weight: 800; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 0.06em; border-right: 1px solid rgba(0,0,0,0.2);
+      color: #000; font-family: 'Barlow Condensed', sans-serif;
     }
     .kpi-table thead th:last-child { border-right: none; }
     .kpi-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
     .kpi-table tbody tr:hover { background: var(--black-panel); }
-    .kpi-table tbody tr.row-locked { background: #141414; }
-    .kpi-table tbody td {
-      padding: 8px 10px;
-      border-right: 1px solid var(--border);
-      vertical-align: middle;
-      color: var(--text-primary);
-    }
+    .kpi-table tbody td { padding: 8px 10px; border-right: 1px solid var(--border); vertical-align: middle; color: var(--text-primary); }
     .kpi-table tbody td:last-child { border-right: none; }
 
     .col-b { width: 42px; text-align: center; color: var(--text-muted); font-size: 0.78rem; font-weight: 700; background: var(--black-panel) !important; }
@@ -322,234 +275,106 @@
     .locked-cell { cursor: not-allowed; }
 
     .editable-input {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 5px 8px;
-      font-size: 0.86rem;
-      text-align: center;
-      background: var(--black-panel);
-      color: var(--text-primary);
-      transition: border-color 0.15s, box-shadow 0.15s;
-      box-sizing: border-box;
+      width: 100%; border: 1px solid var(--border); border-radius: 3px; padding: 5px 8px;
+      font-size: 0.86rem; text-align: center; background: var(--black-panel); color: var(--text-primary);
+      transition: border-color 0.15s, box-shadow 0.15s; box-sizing: border-box;
     }
-    .editable-input:focus {
-      outline: none;
-      border-color: var(--orange);
-      box-shadow: 0 0 0 3px var(--orange-glow);
-    }
-    .editable-input:disabled {
-      background: #0d0d0d;
-      color: var(--text-muted);
-      border-color: transparent;
-      cursor: not-allowed;
-    }
-    .editable-input::placeholder { color: var(--text-muted); }
+    .editable-input:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px var(--orange-glow); }
+    .editable-input:disabled { background: #0d0d0d; color: var(--text-muted); border-color: transparent; cursor: not-allowed; }
 
     .badge-achieved {
-      display: inline-block; padding: 3px 10px; border-radius: 3px;
-      font-size: 0.73rem; font-weight: 800;
-      background: var(--green-muted); color: var(--green);
-      border: 1px solid var(--green-dark);
-      font-family: 'Barlow Condensed', sans-serif;
-      letter-spacing: 0.04em; text-transform: uppercase;
+      display: inline-block; padding: 3px 10px; border-radius: 3px; font-size: 0.73rem; font-weight: 800;
+      background: var(--green-muted); color: var(--green); border: 1px solid var(--green-dark);
+      font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.04em; text-transform: uppercase;
     }
     .badge-not-achieved {
-      display: inline-block; padding: 3px 10px; border-radius: 3px;
-      font-size: 0.73rem; font-weight: 800;
-      background: var(--red-muted); color: var(--red);
-      border: 1px solid #7f1d1d;
-      font-family: 'Barlow Condensed', sans-serif;
-      letter-spacing: 0.04em; text-transform: uppercase;
+      display: inline-block; padding: 3px 10px; border-radius: 3px; font-size: 0.73rem; font-weight: 800;
+      background: var(--red-muted); color: var(--red); border: 1px solid #7f1d1d;
+      font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.04em; text-transform: uppercase;
     }
     .badge-pending {
-      display: inline-block; padding: 3px 10px; border-radius: 3px;
-      font-size: 0.73rem; font-weight: 700;
-      background: var(--black-panel); color: var(--text-muted);
-      border: 1px solid var(--border);
+      display: inline-block; padding: 3px 10px; border-radius: 3px; font-size: 0.73rem; font-weight: 700;
+      background: var(--black-panel); color: var(--text-muted); border: 1px solid var(--border);
       font-family: 'Barlow Condensed', sans-serif;
     }
 
-    .table-legend {
-      display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px;
-      font-size: 0.78rem; color: var(--text-muted); align-items: center;
-    }
+    .table-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: 0.78rem; color: var(--text-muted); align-items: center; }
     .legend-item { display: flex; align-items: center; gap: 5px; }
     .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
 
     /* ── Error ── */
     #error-screen {
-      background: var(--red-muted) !important;
-      color: var(--red) !important;
-      border: 1px solid #7f1d1d !important;
-      border-left: 4px solid var(--red) !important;
-      border-radius: 6px;
-      padding: 16px !important;
-      font-weight: 700;
+      background: var(--red-muted) !important; color: var(--red) !important; border: 1px solid #7f1d1d !important;
+      border-left: 4px solid var(--red) !important; border-radius: 6px; padding: 16px !important; font-weight: 700;
     }
 
     /* ── Loading ── */
     .spinner-layer.spinner-blue-only { border-color: var(--orange) !important; }
 
-    /* ── Section Divider ── */
-    .section-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
-
     /* ── Form Step Label ── */
     .step-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--orange);
-      background: var(--orange-muted);
-      border: 1px solid var(--orange-dark);
-      border-radius: 3px;
-      padding: 2px 8px;
-      display: inline-block;
-      margin-bottom: 6px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--orange); background: var(--orange-muted); border: 1px solid var(--orange-dark);
+      border-radius: 3px; padding: 2px 8px; display: inline-block; margin-bottom: 6px;
     }
 
-    /* ── Compact Input ── */
     .compact-input { margin-bottom: 12px !important; }
     .compact-input input { height: 2.5rem !important; }
 
-    /* ── Back Button ── */
-    #admin-rollback-container .btn {
-      background: var(--black-panel) !important;
-      color: var(--text-sec) !important;
-      border: 1px solid var(--border) !important;
-    }
-    #admin-rollback-container .btn:hover {
-      border-color: var(--orange) !important;
-      color: var(--orange) !important;
-    }
+    #admin-rollback-container .btn { background: var(--black-panel) !important; color: var(--text-sec) !important; border: 1px solid var(--border) !important; }
+    #admin-rollback-container .btn:hover { border-color: var(--orange) !important; color: var(--orange) !important; }
 
-    /* ── Verify-Only Notice ── */
     .verify-only-notice {
-      background: var(--blue-muted);
-      border-left: 4px solid var(--blue);
-      border-radius: 6px;
-      padding: 14px 18px;
-      margin-top: 14px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
+      background: var(--blue-muted); border-left: 4px solid var(--blue); border-radius: 6px; padding: 14px 18px;
+      margin-top: 14px; display: flex; align-items: flex-start; gap: 12px;
     }
     .verify-only-notice i { color: var(--blue); font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
-    .verify-only-notice .title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800;
-      font-size: 1rem;
-      color: #93c5fd;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 4px;
-    }
+    .verify-only-notice .title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1rem; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
     .verify-only-notice .body { font-size: 0.88rem; color: var(--text-sec); line-height: 1.5; }
     .verify-only-notice .body b { color: var(--text-primary); }
 
-    /* ── Own Profile Quick Hint ── */
     .own-profile-hint {
-      margin-top: 8px;
-      padding: 8px 12px;
-      background: var(--black-panel);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--orange);
-      border-radius: 4px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-top: 8px; padding: 8px 12px; background: var(--black-panel); border: 1px solid var(--border);
+      border-left: 3px solid var(--orange); border-radius: 4px; font-size: 0.82rem; color: var(--text-muted);
+      display: flex; align-items: center; gap: 8px;
     }
     .own-profile-hint b { color: var(--orange); }
 
-    /* ── Login Card ── */
     .login-card {
-      background: var(--black-card);
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--orange);
-      border-radius: 8px;
-      padding: 32px 28px;
-      position: relative;
-      overflow: hidden;
+      background: var(--black-card); border: 1px solid var(--border); border-top: 3px solid var(--orange);
+      border-radius: 8px; padding: 32px 28px; position: relative; overflow: hidden;
     }
     .login-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at top, var(--orange-glow), transparent 65%);
-      pointer-events: none;
+      content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top, var(--orange-glow), transparent 65%); pointer-events: none;
     }
     .login-btn {
-      width: 100%;
-      background: var(--orange);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 13px;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 6px;
+      width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 4px; padding: 13px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 800; letter-spacing: 0.08em;
+      text-transform: uppercase; cursor: pointer; transition: background 0.2s, transform 0.1s; display: flex;
+      align-items: center; justify-content: center; gap: 8px; margin-top: 6px;
     }
     .login-btn:hover { background: var(--orange-dark); }
     .login-btn:active { transform: scale(0.98); }
     .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
     .login-error-box {
-      display: none;
-      margin-bottom: 18px;
-      font-size: 0.88rem;
-      color: var(--red);
-      padding: 12px 14px;
-      background: var(--red-muted);
-      border-left: 3px solid var(--red);
-      border-radius: 4px;
-      font-weight: 600;
+      display: none; margin-bottom: 18px; font-size: 0.88rem; color: var(--red); padding: 12px 14px;
+      background: var(--red-muted); border-left: 3px solid var(--red); border-radius: 4px; font-weight: 600;
       animation: slideIn 0.2s ease;
     }
     @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 
     .login-input-wrap { position: relative; margin-bottom: 20px; }
     .login-input-wrap input {
-      padding-left: 42px !important;
-      height: 48px !important;
-      font-size: 1.05rem !important;
-      letter-spacing: 0.12em !important;
-      font-weight: 600 !important;
+      padding-left: 42px !important; height: 48px !important; font-size: 1.05rem !important;
+      letter-spacing: 0.12em !important; font-weight: 600 !important;
     }
-    .login-input-wrap .input-icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      pointer-events: none;
-      z-index: 1;
-    }
-    .login-divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 22px 0;
-    }
+    .login-input-wrap .input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; pointer-events: none; z-index: 1; }
+    .login-divider { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   </style>
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════
-       LOADING SCREEN
-  ══════════════════════════════════════ -->
   <div id="loading" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:80vh;">
     <div class="preloader-wrapper active">
       <div class="spinner-layer spinner-blue-only">
@@ -561,13 +386,8 @@
     <p style="margin-top:20px; color:var(--text-muted); font-weight:600; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.1em; text-transform:uppercase; font-size:0.9rem;">Initialising System…</p>
   </div>
 
-  <!-- ══════════════════════════════════════
-       LOGIN SCREEN
-  ══════════════════════════════════════ -->
   <div id="login-screen" style="display:none; min-height:100vh; align-items:center; justify-content:center; padding:20px;">
     <div style="width:100%; max-width:420px; margin:0 auto;">
-
-      <!-- Brand -->
       <div style="text-align:center; margin-bottom:28px;">
         <div style="display:inline-flex; align-items:center; justify-content:center; width:68px; height:68px; background:var(--orange-muted); border:2px solid var(--orange); border-radius:12px; margin-bottom:14px;">
           <i class="material-icons" style="font-size:2.2rem; color:var(--orange);">shield</i>
@@ -576,50 +396,26 @@
         <p style="margin:6px 0 0 0; color:var(--text-muted); font-size:0.88rem;">Secure Access Portal — Enter Your Personnel Number</p>
       </div>
 
-      <!-- Card -->
       <div class="login-card">
-        <!-- Error Box -->
         <div id="loginError" class="login-error-box"></div>
-
-        <!-- Input -->
         <label for="loginInputPNo">Personnel Number</label>
         <div class="login-input-wrap">
           <i class="material-icons input-icon">badge</i>
-          <input
-            type="text"
-            id="loginInputPNo"
-            placeholder="8-digit number"
-            maxlength="8"
-            autocomplete="off"
-            inputmode="numeric"
-            pattern="\d{8}"
-          >
+          <input type="text" id="loginInputPNo" placeholder="8-digit number" maxlength="8" autocomplete="off" inputmode="numeric" pattern="\d{8}">
         </div>
-
-        <!-- Sign In Button -->
-        <button class="login-btn" id="loginBtn" onclick="attemptManualLogin()">
-          <i class="material-icons" style="font-size:1.15rem;">login</i>
-          Sign In
-        </button>
-
+        <button class="login-btn" id="loginBtn" onclick="attemptManualLogin()"><i class="material-icons" style="font-size:1.15rem;">login</i>Sign In</button>
         <hr class="login-divider">
         <p style="text-align:center; margin:0; color:var(--text-muted); font-size:0.78rem; line-height:1.6;">
-          Access is restricted to registered personnel only.<br>
-          Contact your administrator if you are not registered.
+          Access is restricted to registered personnel only.<br>Contact your administrator if you are not registered.
         </p>
       </div>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════
-       MAIN APP
-  ══════════════════════════════════════ -->
   <div id="app" class="container-fluid" style="display:none; padding:0 20px;">
     <div id="error-screen" style="display:none;"></div>
 
-    <!-- ══════════════════════════════════
-         ADMIN PANEL
-    ══════════════════════════════════ -->
+    <!-- ADMIN PANEL -->
     <div id="admin-panel" style="display:none;">
       <div class="header-banner" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div>
@@ -627,12 +423,8 @@
           <p style="margin:4px 0 0 0; opacity:0.7;">Operational Core Management Console</p>
         </div>
         <div style="display:flex; gap:10px; align-items:center;">
-          <button class="btn btn-green waves-effect waves-light" onclick="toggleViewContext(true)">
-            <i class="material-icons left">dashboard</i>Performance Dashboard
-          </button>
-          <button class="btn btn-ghost waves-effect" onclick="logoutUser()" title="Sign Out">
-            <i class="material-icons left">logout</i>Sign Out
-          </button>
+          <button class="btn btn-green waves-effect waves-light" onclick="toggleViewContext(true)"><i class="material-icons left">dashboard</i>Performance Dashboard</button>
+          <button class="btn btn-ghost waves-effect" onclick="logoutUser()" title="Sign Out"><i class="material-icons left">logout</i>Sign Out</button>
         </div>
       </div>
 
@@ -652,7 +444,6 @@
               <div class="compact-input"><label>Staff Name</label><input type="text" id="staffName" placeholder="Full Name" required></div>
               <div class="compact-input"><label>Markaz Name</label><input type="text" id="staffMarkaz" placeholder="Markaz" required></div>
               <div class="compact-input"><label>Cell No.</label><input type="text" id="staffCell" placeholder="+92 xxx xxxxxxx" required></div>
-              <div class="compact-input"><label>Gmail ID</label><input type="email" id="staffEmail" placeholder="user@gmail.com" required></div>
               <div class="row" style="margin-bottom:12px;">
                 <div class="col s6">
                   <label>Status</label>
@@ -681,8 +472,7 @@
             <table class="compact-view">
               <thead>
                 <tr>
-                  <th>Personnel No</th><th>Name</th><th>Markaz</th><th>Cell No</th>
-                  <th>Gmail ID</th><th>Status</th><th>Role</th><th>Action</th>
+                  <th>Personnel No</th><th>Name</th><th>Markaz</th><th>Cell No</th><th>Status</th><th>Role</th><th>Action</th>
                 </tr>
               </thead>
               <tbody id="directoryTableBody"></tbody>
@@ -692,29 +482,23 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════
-         PERFORMANCE DASHBOARD
-    ══════════════════════════════════ -->
+    <!-- PERFORMANCE DASHBOARD -->
     <div id="dashboard-frame" style="display:none; max-width:1000px; margin:0 auto;">
       <div id="admin-rollback-container" style="display:none; margin-bottom:12px;">
-        <button class="btn waves-effect" onclick="exitFormSimulation()">
-          <i class="material-icons left">arrow_back</i>Return to Management Console
-        </button>
+        <button class="btn waves-effect" onclick="exitFormSimulation()"><i class="material-icons left">arrow_back</i>Return to Management Console</button>
       </div>
 
       <div class="header-banner" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div>
           <h4 style="margin:0; font-size:1.8rem;">Monthly Performance Reporting System</h4>
-          <p id="dashboardSubtitle">Enter Personnel Number to fetch profile and submit monthly performance.</p>
+          <p id="dashboardSubtitle">Review your profile and submit monthly performance.</p>
         </div>
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <div id="loggedInBadge" style="display:none; background:var(--black-panel); border:1px solid var(--border); border-radius:4px; padding:6px 12px; font-size:0.8rem; color:var(--text-sec); align-items:center; gap:6px;">
             <i class="material-icons" style="font-size:1rem; color:var(--green);">verified_user</i>
             <span id="loggedInName" style="color:var(--text-primary); font-weight:600;"></span>
           </div>
-          <button class="btn btn-ghost waves-effect" onclick="logoutUser()" title="Sign Out">
-            <i class="material-icons left">logout</i>Sign Out
-          </button>
+          <button class="btn btn-ghost waves-effect" onclick="logoutUser()" title="Sign Out"><i class="material-icons left">logout</i>Sign Out</button>
         </div>
       </div>
 
@@ -725,7 +509,7 @@
 
         <div id="ownProfileHint" style="display:none;" class="own-profile-hint">
           <i class="material-icons" style="font-size:1rem; color:var(--orange);">info</i>
-          Your personnel number: <b id="ownPersonnelDisplay"></b> — pre-filled below.
+          Your personnel number: <b id="ownPersonnelDisplay"></b>
         </div>
 
         <div class="row" style="margin-bottom:0; margin-top:10px;">
@@ -733,9 +517,7 @@
             <input type="text" id="fetchPersonnelNumber" placeholder="8-digit Personnel Number" maxlength="8">
           </div>
           <div class="col s4">
-            <button class="btn btn-orange waves-effect" id="fetchBtn" onclick="fetchStaffProfile()" style="width:100%; margin-top:2px;">
-              Fetch
-            </button>
+            <button class="btn btn-orange waves-effect" id="fetchBtn" onclick="fetchStaffProfile()" style="width:100%; margin-top:2px;">Fetch</button>
           </div>
         </div>
 
@@ -755,10 +537,7 @@
             <i class="material-icons">lock</i>
             <div>
               <div class="title">Verification Mode — Read Only</div>
-              <div class="body">
-                You are viewing <b id="verifyOnlyName"></b>'s profile for verification purposes.<br>
-                To generate a report, fetch <b>your own personnel number (<span id="verifyOwnNo"></span>)</b>.
-              </div>
+              <div class="body">You are viewing <b id="verifyOnlyName"></b>'s profile for verification purposes.<br>To generate a report, fetch <b>your own personnel number (<span id="verifyOwnNo"></span>)</b>.</div>
             </div>
           </div>
         </div>
@@ -797,6 +576,27 @@
   // ═══════════════════════════════════════════════════
   const API_URL = "https://script.google.com/macros/s/AKfycbzefSc3zrBnlNBhX2KhGeaPPc2caery-0JPCSd_uNaIgq1ImtglZ5Sk3vcvU9Bw8-6Avg/exec";
 
+  // HARDCODED KPI LABELS TO PREVENT UI FROM SHOWING "Row 9"
+  // Update these strings to strictly match your desired metrics.
+  const HARDCODED_LABELS = [
+    "[Enter Label for Row 9]",        // Index 0 (Row 9)
+    "Not Conducted By PMIU",          // Index 1 (Row 10 - Locked)
+    "[Enter Label for Row 11]",       // Index 2 (Row 11)
+    "[Enter Label for Row 12]",       // Index 3 (Row 12)
+    "[Enter Label for Row 13]",       // Index 4 (Row 13)
+    "[Enter Label for Row 14]",       // Index 5 (Row 14)
+    "[Enter Label for Row 15]",       // Index 6 (Row 15)
+    "[Enter Label for Row 16]",       // Index 7 (Row 16)
+    "[Enter Label for Row 17]",       // Index 8 (Row 17)
+    "[Enter Label for Row 18]",       // Index 9 (Row 18 - Yes/No)
+    "[Enter Label for Row 19]",       // Index 10 (Row 19 - Yes/No)
+    "[Enter Label for Row 20]",       // Index 11 (Row 20 - Yes/No)
+    "[Enter Label for Row 21]",       // Index 12 (Row 21 - Yes/No)
+    "[Enter Label for Row 22]",       // Index 13 (Row 22 - Yes/No)
+    "[Enter Label for Row 23]",       // Index 14 (Row 23 - Yes/No)
+    "[Enter Label for Row 24]"        // Index 15 (Row 24 - Yes/No)
+  ];
+
   // ═══════════════════════════════════════════════════
   //  GLOBAL STATE
   // ═══════════════════════════════════════════════════
@@ -804,30 +604,22 @@
   var currentFetchedStaff = null;
   var monthsDataStore     = [];
   var sheetSerials        = [];
-  var dataLabels          = [];
   var targetPercents      = [];
   var entitlements        = [];
   var sheetHeaders        = {};
-  var MONTH_NAMES = ['January','February','March','April','May','June',
-                     'July','August','September','October','November','December'];
+  var MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
   // ═══════════════════════════════════════════════════
   //  INIT
   // ═══════════════════════════════════════════════════
   document.addEventListener('DOMContentLoaded', function () {
-    // Fetch labels in the background (needed later for KPI table)
     fetchDataLabels();
-
-    // Show login screen immediately — no Gmail detection
     document.getElementById('loading').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
 
-    // Allow pressing Enter on the login input
     document.getElementById('loginInputPNo').addEventListener('keydown', function (e) {
       if (e.key === 'Enter') attemptManualLogin();
     });
-
-    // Only allow numeric input
     document.getElementById('loginInputPNo').addEventListener('input', function () {
       this.value = this.value.replace(/\D/g, '');
     });
@@ -858,18 +650,14 @@
   function attemptManualLogin() {
     var pNo = document.getElementById('loginInputPNo').value.trim();
 
-    // Validate
     if (!/^\d{8}$/.test(pNo)) {
       showLoginError('Personnel Number must be exactly 8 digits.');
       return;
     }
 
-    // Show loading state on button
     var btn = document.getElementById('loginBtn');
     btn.disabled = true;
     btn.innerHTML = '<i class="material-icons" style="font-size:1.1rem; animation:spin 1s linear infinite;">refresh</i>&nbsp;Verifying…';
-
-    // Hide any previous error
     document.getElementById('loginError').style.display = 'none';
 
     apiCall('login', { personnelNumber: pNo })
@@ -899,7 +687,6 @@
     globalSessionUser   = {};
     currentFetchedStaff = null;
     monthsDataStore     = [];
-
     resetDashboardState();
 
     document.getElementById('admin-panel').style.display    = 'none';
@@ -933,7 +720,14 @@
       if (user.personnelNumber) {
         document.getElementById('ownProfileHint').style.display    = 'flex';
         document.getElementById('ownPersonnelDisplay').textContent = user.personnelNumber;
-        document.getElementById('fetchPersonnelNumber').value       = String(user.personnelNumber);
+        
+        // LOCK standard users into their own ID
+        var fetchInput = document.getElementById('fetchPersonnelNumber');
+        fetchInput.value = String(user.personnelNumber);
+        fetchInput.disabled = true;
+        document.getElementById('fetchBtn').style.display = 'none';
+        
+        fetchStaffProfile(); // Automatically fetch their data
       }
     }
   }
@@ -944,7 +738,6 @@
   function fetchDataLabels() {
     apiCall('getLabels').then(function (result) {
       sheetSerials   = result.serials        || [];
-      dataLabels     = result.labels         || [];
       targetPercents = result.targetPercents || [];
       entitlements   = result.entitlements   || [];
       if (result.headers) sheetHeaders = result.headers;
@@ -970,11 +763,9 @@
           tr.innerHTML =
             '<td><b style="color:var(--orange);">' + row.personnelNumber + '</b></td>' +
             '<td>' + row.name + '</td><td>' + row.markaz + '</td><td>' + row.cellNo + '</td>' +
-            '<td style="color:var(--text-sec);">' + row.gmailId + '</td>' +
             '<td><span class="status-pill ' + sc + '">' + row.status + '</span></td>' +
             '<td><span class="role-pill ' + rc + '">' + row.role + '</span></td>' +
-            '<td class="center-align"><button class="btn btn-dark btn-small waves-effect" ' +
-              'onclick=\'populateProfileEditor(' + JSON.stringify(row) + ')\'>Modify</button></td>';
+            '<td class="center-align"><button class="btn btn-dark btn-small waves-effect" onclick=\'populateProfileEditor(' + JSON.stringify(row) + ')\'>Modify</button></td>';
           tbody.appendChild(tr);
         });
       }).catch(function (e) { alert('Error loading data: ' + e.message); });
@@ -987,7 +778,6 @@
     document.getElementById('staffName').value         = row.name;
     document.getElementById('staffMarkaz').value       = row.markaz;
     document.getElementById('staffCell').value         = row.cellNo;
-    document.getElementById('staffEmail').value        = row.gmailId;
     document.getElementById('staffStatus').value       = row.status;
     document.getElementById('staffRole').value         = row.role.charAt(0).toUpperCase() + row.role.slice(1).toLowerCase();
   }
@@ -1005,7 +795,6 @@
       name:    document.getElementById('staffName').value,
       markaz:  document.getElementById('staffMarkaz').value,
       cellNo:  document.getElementById('staffCell').value,
-      gmailId: document.getElementById('staffEmail').value,
       status:  document.getElementById('staffStatus').value,
       role:    document.getElementById('staffRole').value
     };
@@ -1023,6 +812,13 @@
     document.getElementById('loggedInBadge').style.display  = 'flex';
     document.getElementById('loggedInName').textContent     = globalSessionUser.name + ' (ADMIN)';
     document.getElementById('ownProfileHint').style.display = 'none';
+    
+    // Admins can search for anyone
+    var fetchInput = document.getElementById('fetchPersonnelNumber');
+    fetchInput.value = '';
+    fetchInput.disabled = false;
+    document.getElementById('fetchBtn').style.display = 'block';
+
     if (isAdminSim) document.getElementById('admin-rollback-container').style.display = 'block';
     resetDashboardState();
   }
@@ -1038,7 +834,6 @@
   //  DASHBOARD — FETCH STAFF
   // ═══════════════════════════════════════════════════
   function resetDashboardState() {
-    document.getElementById('fetchPersonnelNumber').value          = '';
     document.getElementById('staffDetailsContainer').style.display = 'none';
     document.getElementById('monthsSelectionSection').style.display = 'none';
     document.getElementById('monthFormsContainer').innerHTML       = '';
@@ -1056,13 +851,17 @@
     if (!/^\d{8}$/.test(personnelNo)) return showFetchError('Personnel Number must be exactly 8 digits.');
 
     var btn = document.getElementById('fetchBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="material-icons left" style="font-size:1rem;">hourglass_empty</i>Fetching…';
+    if(btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="material-icons left" style="font-size:1rem;">hourglass_empty</i>Fetching…';
+    }
 
     apiCall('getStaff', { targetPNo: personnelNo })
       .then(function (result) {
-        btn.disabled = false;
-        btn.innerHTML = 'Fetch';
+        if(btn) {
+          btn.disabled = false;
+          btn.innerHTML = 'Fetch';
+        }
 
         if (result.success) {
           currentFetchedStaff = result.data;
@@ -1085,7 +884,7 @@
           document.getElementById('monthsSelectionSection').style.display = 'block';
           document.getElementById('verifyOnlyNotice').style.display       = 'none';
           document.getElementById('accessModeBadge').innerHTML = (isAdmin && !isOwn)
-            ? '<span style="background:var(--orange-muted);color:var(--orange);border:1px solid var(--orange-dark);border-radius:3px;padding:3px 8px;font-size:0.72rem;font-weight:800;text-transform:uppercase;">Admin Access</span>'
+            ? '<span style="background:var(--orange-muted);color:var(--orange);border:1px solid var(--orange-dark);border-radius:3px;padding:3px 8px;font-size:0.72rem;font-weight:800;text-transform:uppercase;">Admin Override Access</span>'
             : '<span style="background:var(--green-muted);color:var(--green);border:1px solid var(--green-dark);border-radius:3px;padding:3px 8px;font-size:0.72rem;font-weight:800;text-transform:uppercase;">Authorized Access</span>';
 
           document.getElementById('monthsCount').value             = '';
@@ -1100,8 +899,10 @@
         }
       })
       .catch(function (err) {
-        btn.disabled  = false;
-        btn.innerHTML = 'Fetch';
+        if(btn) {
+          btn.disabled  = false;
+          btn.innerHTML = 'Fetch';
+        }
         showFetchError(err.message);
       });
   }
@@ -1170,38 +971,27 @@
         for (var v = 9; v <= 15; v++) initValues[v] = 'Yes';
         monthsDataStore.push({ index: idx, monthName: MONTH_NAMES[0], year: String(currentYear), status: '', dataValues: initValues });
 
-        var card = document.createElement('div');
-        card.className = 'month-card';
-        card.id        = 'monthCard_' + idx;
-        var h6 = document.createElement('h6');
-        h6.textContent = 'Month ' + (idx + 1) + ' — Details';
-        card.appendChild(h6);
-
+        var card = document.createElement('div'); card.className = 'month-card'; card.id = 'monthCard_' + idx;
+        var h6 = document.createElement('h6'); h6.textContent = 'Month ' + (idx + 1) + ' — Details'; card.appendChild(h6);
         var row = document.createElement('div'); row.className = 'row';
 
-        // Month selector
         var col1 = document.createElement('div'); col1.className = 'col s12 m4';
         var lbl1 = document.createElement('label'); lbl1.textContent = 'Month Name'; col1.appendChild(lbl1);
         var monthSel = document.createElement('select'); monthSel.className = 'browser-default'; monthSel.id = 'monthSel_' + idx;
-        MONTH_NAMES.forEach(function (m) {
-          var opt = document.createElement('option'); opt.value = m; opt.textContent = m; monthSel.appendChild(opt);
-        });
+        MONTH_NAMES.forEach(function (m) { var opt = document.createElement('option'); opt.value = m; opt.textContent = m; monthSel.appendChild(opt); });
         monthSel.addEventListener('change', function () { updateMonthData(idx, 'monthName', this.value); syncAllMonthSelectors(); });
         col1.appendChild(monthSel);
 
-        // Year selector
         var col2 = document.createElement('div'); col2.className = 'col s12 m4';
         var lbl2 = document.createElement('label'); lbl2.textContent = 'Year'; col2.appendChild(lbl2);
         var yearSel = document.createElement('select'); yearSel.className = 'browser-default'; yearSel.id = 'yearSel_' + idx;
         [currentYear - 1, currentYear].forEach(function (yr) {
           var opt = document.createElement('option'); opt.value = String(yr); opt.textContent = yr;
-          if (yr === currentYear) opt.selected = true;
-          yearSel.appendChild(opt);
+          if (yr === currentYear) opt.selected = true; yearSel.appendChild(opt);
         });
         yearSel.addEventListener('change', function () { updateMonthData(idx, 'year', this.value); syncAllMonthSelectors(); });
         col2.appendChild(yearSel);
 
-        // Status selector
         var col3 = document.createElement('div'); col3.className = 'col s12 m4';
         var lbl3 = document.createElement('label'); lbl3.textContent = 'School Status'; col3.appendChild(lbl3);
         var statusSel = document.createElement('select'); statusSel.className = 'browser-default';
@@ -1211,12 +1001,10 @@
         statusSel.addEventListener('change', function () { handleStatusChange(idx, this.value); });
         col3.appendChild(statusSel);
 
-        row.appendChild(col1); row.appendChild(col2); row.appendChild(col3);
-        card.appendChild(row);
+        row.appendChild(col1); row.appendChild(col2); row.appendChild(col3); card.appendChild(row);
 
         var dataDiv = document.createElement('div'); dataDiv.id = 'dataEntry_' + idx; dataDiv.style.display = 'none';
-        card.appendChild(dataDiv);
-        container.appendChild(card);
+        card.appendChild(dataDiv); container.appendChild(card);
       })(i);
     }
 
@@ -1307,9 +1095,6 @@
     }
   }
 
-  // ═══════════════════════════════════════════════════
-  //  STATUS CHANGE → build or clear data entry area
-  // ═══════════════════════════════════════════════════
   function handleStatusChange(idx, status) {
     updateMonthData(idx, 'status', status);
     var dataDiv = document.getElementById('dataEntry_' + idx);
@@ -1320,11 +1105,8 @@
       buildKpiTable(idx, dataDiv);
       dataDiv.style.display = 'block';
     } else if (status === 'Closed') {
-      var note = document.createElement('div');
-      note.className   = 'closed-note';
-      note.textContent = '✓ No data entry required for a closed month.';
-      dataDiv.appendChild(note);
-      dataDiv.style.display = 'block';
+      var note = document.createElement('div'); note.className = 'closed-note'; note.textContent = '✓ No data entry required for a closed month.';
+      dataDiv.appendChild(note); dataDiv.style.display = 'block';
     } else {
       dataDiv.style.display = 'none';
     }
@@ -1336,8 +1118,7 @@
   function buildKpiTable(idx, container) {
     var obj = monthsDataStore.find(function (m) { return m.index === idx; });
 
-    var legend = document.createElement('div');
-    legend.className = 'table-legend';
+    var legend = document.createElement('div'); legend.className = 'table-legend';
     legend.innerHTML =
       '<span style="font-weight:700; color:var(--text-primary); font-family:\'Barlow Condensed\',sans-serif; font-size:0.85rem; letter-spacing:0.04em; text-transform:uppercase;">Performance Entry Grid</span>' +
       '<span class="legend-item"><span class="legend-dot" style="background:var(--black-panel); border:1px solid var(--border);"></span> Locked</span>' +
@@ -1360,14 +1141,9 @@
       { label: 'Result',              width: '130px', align: 'center' }
     ];
     cols.forEach(function (c) {
-      var th = document.createElement('th');
-      th.textContent  = c.label;
-      th.style.width  = c.width;
-      th.style.textAlign = c.align;
-      hRow.appendChild(th);
+      var th = document.createElement('th'); th.textContent = c.label; th.style.width = c.width; th.style.textAlign = c.align; hRow.appendChild(th);
     });
-    thead.appendChild(hRow);
-    table.appendChild(thead);
+    thead.appendChild(hRow); table.appendChild(thead);
 
     var tbody = document.createElement('tbody');
 
@@ -1376,93 +1152,60 @@
         var dvIdx         = r - 9;
         var isRow10       = (r === 10);
         var isYesNo       = (r >= 18 && r <= 24);
-        var indicatorText = (dataLabels.length > dvIdx) ? (dataLabels[dvIdx] || 'Row ' + r) : 'Row ' + r;
+        var indicatorText = HARDCODED_LABELS[dvIdx]; // HARDCODED LABEL FIX HERE
         var rowTarget     = '';
         if (targetPercents.length > dvIdx) {
-          var tp = targetPercents[dvIdx];
-          rowTarget = (tp !== '' && tp !== null && tp !== undefined) ? tp : '—';
+          var tp = targetPercents[dvIdx]; rowTarget = (tp !== '' && tp !== null && tp !== undefined) ? tp : '—';
         }
         var entRaw = (entitlements.length > dvIdx) ? entitlements[dvIdx] : '—';
         if (entRaw === '' || entRaw === null || entRaw === undefined) entRaw = '—';
 
         var tr = document.createElement('tr');
 
-        // Col B — serial
+        // Col B
         var td1 = document.createElement('td'); td1.className = 'col-b locked-cell';
         td1.textContent = (sheetSerials.length > dvIdx && sheetSerials[dvIdx] !== '') ? sheetSerials[dvIdx] : (dvIdx + 1);
         tr.appendChild(td1);
 
-        // Col C — indicator label
+        // Col C
         var td2 = document.createElement('td'); td2.className = 'col-c locked-cell'; td2.style.fontWeight = '500';
         td2.textContent = indicatorText; tr.appendChild(td2);
 
-        // Col E — target
+        // Col E
         var td3 = document.createElement('td'); td3.className = 'col-e locked-cell'; td3.style.textAlign = 'center';
-        if (!isRow10 && rowTarget !== '—' && rowTarget !== '') {
-          td3.style.color      = 'var(--orange)';
-          td3.style.fontWeight = '700';
-        }
+        if (!isRow10 && rowTarget !== '—' && rowTarget !== '') { td3.style.color = 'var(--orange)'; td3.style.fontWeight = '700'; }
         td3.textContent = rowTarget; tr.appendChild(td3);
 
-        // Col D — data input
+        // Col D
         var td4 = document.createElement('td'); td4.className = 'col-d';
         if (isRow10) {
           td4.className += ' locked-cell';
-          var inp10 = document.createElement('input');
-          inp10.className = 'editable-input'; inp10.type = 'text';
-          inp10.value = 'Not Conducted By PMIU'; inp10.disabled = true;
-          td4.appendChild(inp10);
+          var inp10 = document.createElement('input'); inp10.className = 'editable-input'; inp10.type = 'text'; inp10.value = 'Not Conducted By PMIU'; inp10.disabled = true; td4.appendChild(inp10);
         } else if (isYesNo) {
-          var sel = document.createElement('select');
-          sel.className = 'browser-default editable-input';
-          sel.style.height = 'auto'; sel.style.padding = '5px 8px';
-          sel.id = 'dinput_' + idx + '_' + r;
+          var sel = document.createElement('select'); sel.className = 'browser-default editable-input'; sel.style.height = 'auto'; sel.style.padding = '5px 8px'; sel.id = 'dinput_' + idx + '_' + r;
           var optYes = document.createElement('option'); optYes.value = 'Yes'; optYes.textContent = 'Yes';
           var optNo  = document.createElement('option'); optNo.value  = 'No';  optNo.textContent  = 'No';
-          sel.appendChild(optYes); sel.appendChild(optNo);
-          sel.value = obj ? (obj.dataValues[dvIdx] || 'Yes') : 'Yes';
-          sel.addEventListener('change', function () {
-            updateDataValue(idx, r, this.value);
-            refreshFCell(idx, r);
-            calculateMonthAllowance(idx);
-          });
+          sel.appendChild(optYes); sel.appendChild(optNo); sel.value = obj ? (obj.dataValues[dvIdx] || 'Yes') : 'Yes';
+          sel.addEventListener('change', function () { updateDataValue(idx, r, this.value); refreshFCell(idx, r); calculateMonthAllowance(idx); });
           td4.appendChild(sel);
         } else {
-          var inp = document.createElement('input');
-          inp.className   = 'editable-input'; inp.type = 'number';
-          inp.placeholder = '0–100'; inp.min = '0'; inp.max = '100';
-          inp.value       = obj ? (obj.dataValues[dvIdx] || '') : '';
-          inp.id          = 'dinput_' + idx + '_' + r;
+          var inp = document.createElement('input'); inp.className = 'editable-input'; inp.type = 'number'; inp.placeholder = '0–100'; inp.min = '0'; inp.max = '100'; inp.value = obj ? (obj.dataValues[dvIdx] || '') : ''; inp.id = 'dinput_' + idx + '_' + r;
           inp.addEventListener('input', function () {
             var v = parseFloat(this.value);
-            if (!isNaN(v) && v > 100) {
-              this.value = '100';
-              this.style.borderColor = 'var(--red)';
-              var el = this;
-              setTimeout(function () { el.style.borderColor = ''; }, 1200);
-            } else if (!isNaN(v) && v < 0) {
-              this.value = '0';
-            }
-            updateDataValue(idx, r, this.value);
-            refreshFCell(idx, r);
-            calculateMonthAllowance(idx);
+            if (!isNaN(v) && v > 100) { this.value = '100'; this.style.borderColor = 'var(--red)'; var el = this; setTimeout(function () { el.style.borderColor = ''; }, 1200); } else if (!isNaN(v) && v < 0) { this.value = '0'; }
+            updateDataValue(idx, r, this.value); refreshFCell(idx, r); calculateMonthAllowance(idx);
           });
           td4.appendChild(inp);
         }
         tr.appendChild(td4);
 
-        // Col E — entitlement
-        var td5      = document.createElement('td'); td5.className = 'col-e locked-cell'; td5.style.textAlign = 'center'; td5.id = 'ecell_' + idx + '_' + r;
-        var initVal  = obj ? (obj.dataValues[dvIdx] || '') : '';
-        var initEnt  = getEntitlementDisplay(r, initVal);
-        var initRes  = computeFValue(r, initVal);
-        if (initEnt === '—')            td5.textContent = '—';
-        else if (initEnt === '0')        td5.innerHTML = '<span style="color:var(--red);font-weight:700;">Rs 0</span>';
-        else if (initRes === 'pending')  td5.innerHTML = '<span style="color:var(--text-muted);">Rs ' + entRaw + '</span>';
-        else                             td5.innerHTML = '<span style="color:var(--green);font-weight:700;">Rs ' + entRaw + '</span>';
+        // Col E (Entitlement)
+        var td5 = document.createElement('td'); td5.className = 'col-e locked-cell'; td5.style.textAlign = 'center'; td5.id = 'ecell_' + idx + '_' + r;
+        var initVal = obj ? (obj.dataValues[dvIdx] || '') : ''; var initEnt = getEntitlementDisplay(r, initVal); var initRes = computeFValue(r, initVal);
+        if (initEnt === '—') td5.textContent = '—'; else if (initEnt === '0') td5.innerHTML = '<span style="color:var(--red);font-weight:700;">Rs 0</span>'; else if (initRes === 'pending') td5.innerHTML = '<span style="color:var(--text-muted);">Rs ' + entRaw + '</span>'; else td5.innerHTML = '<span style="color:var(--green);font-weight:700;">Rs ' + entRaw + '</span>';
         tr.appendChild(td5);
 
-        // Col F — result badge
+        // Col F
         var td6 = document.createElement('td'); td6.className = 'col-f'; td6.id = 'fcell_' + idx + '_' + r;
         td6.innerHTML = renderFBadge(initRes); tr.appendChild(td6);
 
@@ -1472,16 +1215,11 @@
 
     table.appendChild(tbody); wrap.appendChild(table); container.appendChild(wrap);
 
-    // Allowance summary
-    var summaryDiv = document.createElement('div');
-    summaryDiv.id = 'allowance_summary_' + idx;
+    var summaryDiv = document.createElement('div'); summaryDiv.id = 'allowance_summary_' + idx;
     summaryDiv.style.cssText = 'margin-top:15px; padding:12px 18px; background:var(--black-panel); border-left:4px solid var(--orange); border-radius:4px; font-family:"DM Sans",sans-serif;';
-    container.appendChild(summaryDiv);
-    calculateMonthAllowance(idx);
+    container.appendChild(summaryDiv); calculateMonthAllowance(idx);
 
-    // Footer note
-    var note = document.createElement('p');
-    note.style.cssText = 'font-size:0.78rem; color:var(--text-muted); margin-top:12px; margin-bottom:0; display:flex; align-items:center; gap:4px;';
+    var note = document.createElement('p'); note.style.cssText = 'font-size:0.78rem; color:var(--text-muted); margin-top:12px; margin-bottom:0; display:flex; align-items:center; gap:4px;';
     note.innerHTML = '<i class="material-icons" style="font-size:0.9rem; color:var(--orange);">lock</i>Row 10 is locked. Rows 18–24 are dropdowns. Deductions reflect instantly on the certificate (−1000 per missing target).';
     container.appendChild(note);
   }
@@ -1497,17 +1235,14 @@
   function validateAndCollectData() {
     for (var i = 0; i < monthsDataStore.length; i++) {
       var m = monthsDataStore[i];
-      if (!m.monthName || !m.year || !m.status)
-        return alert('Month ' + (i + 1) + ': Please select Month Name, Year, and School Status.'), null;
-
+      if (!m.monthName || !m.year || !m.status) return alert('Month ' + (i + 1) + ': Please select Month Name, Year, and School Status.'), null;
       if (m.status === 'Open') {
         for (var row = 9; row <= 24; row++) {
           if (row === 10 || (row >= 18 && row <= 24)) continue;
           var val = m.dataValues[row - 9];
           if (val !== '' && val !== null && val !== undefined) {
             var num = parseFloat(val);
-            if (isNaN(num) || num < 0 || num > 100)
-              return alert('Month ' + (i + 1) + ', Row ' + row + ': must be a number between 0 and 100.'), null;
+            if (isNaN(num) || num < 0 || num > 100) return alert('Month ' + (i + 1) + ', Row ' + row + ': must be a number between 0 and 100.'), null;
           }
         }
       }
@@ -1516,8 +1251,7 @@
   }
 
   function base64ToBlob(base64, mime) {
-    var binary = atob(base64);
-    var array  = [];
+    var binary = atob(base64); var array = [];
     for (var i = 0; i < binary.length; i++) array.push(binary.charCodeAt(i));
     return new Blob([new Uint8Array(array)], { type: mime });
   }
@@ -1530,58 +1264,34 @@
     if (!validated) return;
 
     var payload = {
+      callerPNo: globalSessionUser.personnelNumber,
       staff:  currentFetchedStaff,
-      months: validated.map(function (m) {
-        return { monthName: m.monthName, year: m.year, status: m.status, dataValues: m.dataValues };
-      })
+      months: validated.map(function (m) { return { monthName: m.monthName, year: m.year, status: m.status, dataValues: m.dataValues }; })
     };
 
-    var btn      = document.getElementById('submitReportBtn');
-    var origText = btn.innerHTML;
-    btn.disabled = true;
+    var btn = document.getElementById('submitReportBtn'); var origText = btn.innerHTML; btn.disabled = true;
 
     var timeLeft = 30;
     btn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Generating PDF... (' + timeLeft + 's)';
     var timerId = setInterval(function () {
       timeLeft--;
-      if (timeLeft <= 0) {
-        btn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Wrapping up PDF…';
-        clearInterval(timerId);
-      } else {
-        btn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Generating PDF... (' + timeLeft + 's)';
-      }
+      if (timeLeft <= 0) { btn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Wrapping up PDF…'; clearInterval(timerId); } 
+      else { btn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Generating PDF... (' + timeLeft + 's)'; }
     }, 1000);
 
     apiCall('generateReport', payload)
       .then(function (res) {
-        clearInterval(timerId);
-        btn.disabled  = false;
-        btn.innerHTML = origText;
-
+        clearInterval(timerId); btn.disabled = false; btn.innerHTML = origText;
         if (res.success && res.pdfBase64) {
-          var blob = base64ToBlob(res.pdfBase64, 'application/pdf');
-          var url  = URL.createObjectURL(blob);
-          var a    = document.createElement('a');
-          a.href     = url;
-          a.download = res.fileName;
-          document.body.appendChild(a);
-          a.click();
-          setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
-          alert(res.message);
-          resetDashboardState();
-        } else {
-          alert(res.message || 'An unexpected error occurred during generation.');
-        }
+          var blob = base64ToBlob(res.pdfBase64, 'application/pdf'); var url = URL.createObjectURL(blob);
+          var a = document.createElement('a'); a.href = url; a.download = res.fileName; document.body.appendChild(a);
+          a.click(); setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+          alert(res.message); resetDashboardState();
+        } else { alert(res.message || 'An unexpected error occurred during generation.'); }
       })
-      .catch(function (err) {
-        clearInterval(timerId);
-        btn.disabled  = false;
-        btn.innerHTML = origText;
-        alert('Error: ' + err.message);
-      });
+      .catch(function (err) { clearInterval(timerId); btn.disabled = false; btn.innerHTML = origText; alert('Error: ' + err.message); });
   }
 
-  /* spin animation for loading button */
   var style = document.createElement('style');
   style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
   document.head.appendChild(style);
