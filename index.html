@@ -375,18 +375,7 @@
 </head>
 <body>
 
-  <div id="loading" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:80vh;">
-    <div class="preloader-wrapper active">
-      <div class="spinner-layer spinner-blue-only">
-        <div class="circle-clipper left"><div class="circle"></div></div>
-        <div class="gap-patch"><div class="circle"></div></div>
-        <div class="circle-clipper right"><div class="circle"></div></div>
-      </div>
-    </div>
-    <p style="margin-top:20px; color:var(--text-muted); font-weight:600; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.1em; text-transform:uppercase; font-size:0.9rem;">Initialising Database Connections…</p>
-  </div>
-
-  <div id="login-screen" style="display:none; min-height:100vh; align-items:center; justify-content:center; padding:20px;">
+  <div id="login-screen" style="display:flex; min-height:100vh; align-items:center; justify-content:center; padding:20px;">
     <div style="width:100%; max-width:420px; margin:0 auto;">
       <div style="text-align:center; margin-bottom:28px;">
         <div style="display:inline-flex; align-items:center; justify-content:center; width:68px; height:68px; background:var(--orange-muted); border:2px solid var(--orange); border-radius:12px; margin-bottom:14px;">
@@ -576,6 +565,27 @@
   // ═══════════════════════════════════════════════════
   const API_URL = "https://script.google.com/macros/s/AKfycbzefSc3zrBnlNBhX2KhGeaPPc2caery-0JPCSd_uNaIgq1ImtglZ5Sk3vcvU9Bw8-6Avg/exec";
 
+  // HARDCODED KPI LABELS TO PREVENT UI FROM SHOWING "Row 9"
+  // Completely overrides Google Sheet fetching for instant page load.
+  const HARDCODED_LABELS = [
+    "AEO Visits",                                                // Row 9
+    "LND (E,M,U)",                                               // Row 10 (Locked)
+    "Student Attendance ECE-8",                                  // Row 11
+    "Teacher Presence",                                          // Row 12
+    "Functioning of facilities (BW, DW, Electricity, Furniture)",// Row 13
+    "Student Retention",                                         // Row 14
+    "Litnum Material",                                           // Row 15
+    "On time resolution of Hotline Complaint",                   // Row 16
+    "Classroom Observation",                                     // Row 17
+    "Co-curricular activities",                                  // Row 18
+    "School records",                                            // Row 19
+    "School based action plan",                                  // Row 20
+    "School Council",                                            // Row 21
+    "Attend monthly meeting",                                    // Row 22
+    "Visit ADP schemes under construction",                      // Row 23
+    "Update SIS Data"                                            // Row 24
+  ];
+
   // ═══════════════════════════════════════════════════
   //  GLOBAL STATE
   // ═══════════════════════════════════════════════════
@@ -583,21 +593,17 @@
   var currentFetchedStaff = null;
   var monthsDataStore     = [];
   var sheetSerials        = [];
-  var dataLabels          = []; // Dynamically fetched from sheet
   var targetPercents      = [];
   var entitlements        = [];
   var sheetHeaders        = {};
   var MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
   // ═══════════════════════════════════════════════════
-  //  INIT - ELIMINATED RACE CONDITION
+  //  INIT
   // ═══════════════════════════════════════════════════
-  document.addEventListener('DOMContentLoaded', async function () {
-    // Await the labels before showing the login screen so they never fail to load
-    await fetchDataLabels();
-    
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
+  document.addEventListener('DOMContentLoaded', function () {
+    // Labels are now hardcoded, so we just run the background fetch for targets/entitlements
+    fetchDataLabels();
 
     document.getElementById('loginInputPNo').addEventListener('keydown', function (e) {
       if (e.key === 'Enter') attemptManualLogin();
@@ -611,7 +617,6 @@
     try {
       var result = await apiCall('getLabels');
       sheetSerials   = result.serials        || [];
-      dataLabels     = result.labels         || [];
       targetPercents = result.targetPercents || [];
       entitlements   = result.entitlements   || [];
       if (result.headers) sheetHeaders = result.headers;
@@ -1138,8 +1143,8 @@
         var isRow10       = (r === 10);
         var isYesNo       = (r >= 18 && r <= 24);
         
-        // Safely pull from dynamically fetched labels array instead of hardcoded
-        var indicatorText = (dataLabels.length > dvIdx && dataLabels[dvIdx] !== '') ? dataLabels[dvIdx] : 'Row ' + r;
+        // SAFELY PULL FROM OUR LOCALLY HARDCODED ARRAY!
+        var indicatorText = HARDCODED_LABELS[dvIdx];
         
         var rowTarget     = '';
         if (targetPercents.length > dvIdx) {
